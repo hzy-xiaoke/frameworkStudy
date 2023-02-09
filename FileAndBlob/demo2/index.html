@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="box1">
+      <h2>Input</h2>
+      <input type="file" onchange="changeHandle(event)">
+    </div>
+    <hr>
+    <div class="box2">
+      <h2>Drag</h2>
+      <div style="width: 100px; height: 100px; border: 1px solid black;"
+        ondragover="dragoverHandle(event)"
+        ondrop="dropHandle(event)"
+      ></div>
+    </div>
+    <hr>
+    <div class="box3">
+      <h2>window.showOpenFilePicker</h2>
+      <button onclick="filePickerHandle()">File Picker</button>
+    </div>
+    <hr>
+    <div class="box4">
+      <h2>Fetch</h2>
+      <button onclick="fetchHandle('JPG')">Fetch JPG</button>
+      <button onclick="fetchHandle('JSON')">Fetch JSON</button>
+    </div>
+    <script src="index.js"></script>
+  </body>
+</html>
