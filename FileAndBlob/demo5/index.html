@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+      .container {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <button onclick="onFetch('text', 'blob url')">Fetch text - blob url</button>
+      <button onclick="onFetch('text', 'data url')">Fetch text - data url</button>
+      <button onclick="onFetch('image', 'blob url')">Fetch image - blob url</button>
+      <button onclick="onFetch('image', 'data url')">Fetch image - data url</button>
+      <br><br>
+      <textarea cols="30" rows="10"></textarea>
+      <br><br>
+      <a href="#" target="_blank">链接</a>
+    </div>
+    <script src="index.js"></script>
+  </body>
+</html>
