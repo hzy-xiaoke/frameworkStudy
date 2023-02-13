@@ -1,7 +1,28 @@
 let oEditArea = document.querySelector('.editArea');
 let oTitle = document.querySelector('.title');
+let oButtons = document.querySelectorAll('.needOpenFile');
 
 let fh = null;
+const state = {
+  isOpenFile: false
+};
+
+const proxy = new Proxy(state, {
+  set(target, prop, value) {
+    if (prop === 'isOpenFile') {
+      if (value === true) {
+        oButtons.forEach((button) => {
+          button.disabled = false;
+        })
+      } else {
+        oButtons.forEach((button) => {
+          button.disabled = true;
+        })
+      }
+    }
+    return Reflect.set(target, prop, value);
+  }
+});
 
 const onCreate = async (isSaveAs = false) => {
   const fileHandle = await window.showSaveFilePicker();
@@ -9,6 +30,7 @@ const onCreate = async (isSaveAs = false) => {
     fh = fileHandle;
     oTitle.textContent = fh.name;
     oEditArea.value = '';
+    proxy.isOpenFile = true;
   }
   return fileHandle;
 }
@@ -19,6 +41,7 @@ const onOpen = async () => {
   fh = fileHandle;
   oTitle.textContent = fh.name;
   oEditArea.value = await file.text();
+  proxy.isOpenFile = true;
 }
 
 const onSave = async () => {
@@ -50,4 +73,5 @@ const onClose = () => {
   fh = null;
   oTitle.textContent = '空文件';
   oEditArea.value = '';
+  proxy.isOpenFile = false;
 }

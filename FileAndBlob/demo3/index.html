@@ -26,9 +26,9 @@
       <div class="operation">
         <button onclick="onCreate()">新建</button>
         <button onclick="onOpen()">打开</button>
-        <button onclick="onSave()">保存</button>
-        <button onclick="onSaveAs()">另存为</button>
-        <button onclick="onClose()">关闭文件</button>
+        <button onclick="onSave()" class="needOpenFile" disabled>保存</button>
+        <button onclick="onSaveAs()" class="needOpenFile" disabled>另存为</button>
+        <button onclick="onClose()" class="needOpenFile" disabled>关闭文件</button>
       </div>
     </div>
     <script src="index.js"></script>
