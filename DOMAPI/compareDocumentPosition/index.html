@@ -38,6 +38,8 @@
         32：待定
       */
 
+      // 0 => box1
+      console.log(box1.compareDocumentPosition(box1));
       // 4 => box2在box1之后
       console.log(box1.compareDocumentPosition(box2));
       // 20 => 16 + 4 => box3被box1包含,且box3在box1之后
