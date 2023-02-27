@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="box1">
+      <div class="box3">
+        <div class="box5"></div>
+      </div>
+    </div>
+    <div class="box2">
+      <div class="box4">
+        <div class="box6"></div>
+      </div>
+    </div>
+
+    <script>
+      let box1 = document.querySelector('.box1');
+      let box2 = document.querySelector('.box2');
+      let box3 = document.querySelector('.box3');
+      let box4 = document.querySelector('.box4');
+      let box5 = document.querySelector('.box5');
+      let box6 = document.querySelector('.box6');
+
+      /*
+        MDN链接: https://developer.mozilla.org/zh-CN/docs/Web/API/Node/compareDocumentPosition
+
+        node.compareDocumentPosition(otherNode)
+        1：不在同一文档中
+        2：otherNode 在 node 之前
+        4：otherNode 在 node 之后
+        8：otherNode 包含 node
+        16：otherNode 被 node 包含
+        32：待定
+      */
+
+      // 4 => box2在box1之后
+      console.log(box1.compareDocumentPosition(box2));
+      // 20 => 16 + 4 => box3被box1包含,且box3在box1之后
+      console.log(box1.compareDocumentPosition(box3));
+      // 4 => box4在box1之后
+      console.log(box1.compareDocumentPosition(box4));
+      // 20 => 16 + 4 => box5被box1包含,且box5在box1之后
+      console.log(box1.compareDocumentPosition(box5));
+      // 4 => box6在box1之后
+      console.log(box1.compareDocumentPosition(box6));
+      // 4 => box6在box5之后
+      console.log(box5.compareDocumentPosition(box6));
+    </script>
+  </body>
+</html>
