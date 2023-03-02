@@ -1,0 +1,13 @@
+{
+  "name": "node.js-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {},
+  "author": "",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "eslint": "^8.8.0"
+  }
+}
