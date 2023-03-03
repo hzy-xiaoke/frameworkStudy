@@ -1,0 +1,35 @@
+module.exports = {
+    'env': {
+        'browser': true,
+        'commonjs': true,
+        'es2021': true
+    },
+    'extends': 'eslint:recommended',
+    'overrides': [
+    ],
+    'parserOptions': {
+        'ecmaVersion': 'latest'
+    },
+    'rules': {
+        // 缩进
+        'indent': [
+            'error',
+            2
+        ],
+        // 换行风格
+        'linebreak-style': [
+            'error',
+            'windows'
+        ],
+        // 引号
+        'quotes': [
+            'error',
+            'single'
+        ],
+        // 分号
+        'semi': [
+            'error',
+            'always'
+        ]
+    }
+};
