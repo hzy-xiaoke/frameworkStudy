@@ -24,6 +24,8 @@ Installing eslint-plugin-vue@latest, eslint@latest
 ...
 ```
 
+---
+
 #### 手动设置
 
 + 下载 eslint 
@@ -154,3 +156,40 @@ Installing eslint-plugin-vue@latest, eslint@latest
 
   Node.js API Reference: https://eslint.org/docs/latest/integrate/nodejs-api
 
+---
+
+#### 自定义插件
+
++ 命名插件
+
+  > Each plugin is an npm module with a name in the format of `eslint-plugin-<plugin-name>`
+  >
+  > You can also use scoped packages in the format of `@<scope>/eslint-plugin-<plugin-name>` or even `@<scope>/eslint-plugin`
+
++ 创建插件
+
+  > The easiest way to start creating a plugin is to use the [Yeoman generator](https://www.npmjs.com/package/generator-eslint). The generator will guide you through setting up the skeleton of a plugin.
+
+  + Rules in Plugins
+
+    > the plugin must export a `rules` object containing a key-value mapping of rule ID to rule
+    >
+    > The rule ID does not have to follow any naming convention
+
+    Custom Rules: https://eslint.org/docs/latest/extend/custom-rules
+
+  + Environments in Plugins
+
+    > the plugin must export an `environments` object
+
+  + Processors in Plugins
+
+    > You can add processors to plugins by including the processor functions in the `processors` key
+
+    > You can also create custom processors that tell ESLint how to process files other than JavaScript
+
+    Custom Processors: https://eslint.org/docs/latest/extend/custom-processors
+
+  + Configs in Plugins
+
+    > You can bundle configurations inside a plugin by specifying them under the `configs` key
