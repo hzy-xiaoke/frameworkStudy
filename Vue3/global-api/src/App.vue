@@ -1,5 +1,9 @@
 <template>
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <HelloWorld msg="Welcome to Vue.js App"/>
+  <hr />
+  <my-button>自定义按钮</my-button>
+  <br /><br />
+  <my-input placeholder="请输入用户名"></my-input>
 </template>
 
 <script>
