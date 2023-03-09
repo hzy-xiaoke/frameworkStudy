@@ -3,6 +3,7 @@
     <p>common: {{ commonObj.name }}</p>
     <p>reactive: {{ reactiveObj.name }}</p>
     <p>readonly: {{ readonlyObj.name }}</p>
+    <button @click="update">更新</button>
   </div>
 </template>
 
@@ -51,11 +52,11 @@ export default {
       isReadonly: isReadonly(readonlyObj)
     });
 
-    setTimeout(() => {
+    const update = () => {
       commonObj.name = '张三';
       reactiveObj.name = '张三';
       readonlyObj.name = '张三';
-    }, 1000);
+    }
 
     watch(() => commonObj.name, (newValue, oldValue) => {
       console.log('watch commonObj', {
@@ -81,7 +82,8 @@ export default {
     return {
       commonObj,
       reactiveObj,
-      readonlyObj
+      readonlyObj,
+      update
     }
   }
 }

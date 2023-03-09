@@ -1,18 +1,18 @@
 <template>
   <reactive-c></reactive-c>
+  <hr />
+  <ref-c></ref-c>
 </template>
 
 <script>
-import { reactive } from 'vue';
 import ReactiveC from './components/ReactiveC.vue';
+import RefC from './components/RefC.vue';
 
 export default {
   name: 'App',
   components: {
-    ReactiveC
-  },
-  setup() {
-    
+    ReactiveC,
+    RefC
   }
 }
 </script>
