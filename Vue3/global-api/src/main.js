@@ -6,9 +6,9 @@ import MyUI from './libs/MyUI';
 
 const app = createApp(App);
 
-app.component('HelloWorld', HelloWorld);
-console.log('app.config =>',app.config);
+console.log('app.config =>', app.config);
 
+app.component('HelloWorld', HelloWorld);
 const MyComponent = app.component('HelloWorld');
 console.log('MyComponent =>', MyComponent);
 
