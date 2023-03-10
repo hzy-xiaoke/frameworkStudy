@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { ref, watchEffect } from 'vue';
+import { ref, watchEffect, onBeforeUpdate, onUpdated } from 'vue';
 
 export default {
   name: 'WatchEffectC',
@@ -24,12 +24,28 @@ export default {
       onCleanup(() => {
         console.log('清理无效的副作用');
       });
+    }, {
+      flush: 'post',
+      onTrack(e) {
+        console.log('onTrack', e);
+      },
+      onTrigger(e) {
+        console.log('onTrigger', e);
+      }
     });
 
-    setTimeout(() => {
-      stop();
-      console.log('副作用函数已停止');
-    }, 1500);
+    onBeforeUpdate(() => {
+      console.log('onBeforeUpdate');
+    });
+
+    onUpdated(() => {
+      console.log('onUpdated');
+    });
+
+    // setTimeout(() => {
+    //   stop();
+    //   console.log('副作用函数已停止');
+    // }, 1500);
 
     return {
       count
