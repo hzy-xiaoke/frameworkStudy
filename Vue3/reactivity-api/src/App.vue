@@ -1,18 +1,22 @@
 <template>
-  <watch-effect-c></watch-effect-c>
+  <watch-mul-c></watch-mul-c>
 </template>
 
 <script>
 import ReactiveC from './components/ReactiveC.vue';
 import RefC from './components/RefC.vue';
 import WatchEffectC from './components/WatchEffectC.vue';
+import WatchC from './components/WatchC.vue';
+import WatchMulC from './components/WatchMulC.vue';
 
 export default {
   name: 'App',
   components: {
     ReactiveC,
     RefC,
-    WatchEffectC
+    WatchEffectC,
+    WatchC,
+    WatchMulC
   }
 }
 </script>

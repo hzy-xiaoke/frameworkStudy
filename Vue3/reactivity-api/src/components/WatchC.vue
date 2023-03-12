@@ -3,28 +3,30 @@
 </template>
 
 <script>
-import { ref, watchEffect, onBeforeUpdate, onUpdated } from 'vue';
+import { ref, watch, onBeforeUpdate, onUpdated } from 'vue';
 
 export default {
-  name: 'WatchEffectC',
+  name: 'WatchC',
   setup() {
     const count = ref(0);
 
     setTimeout(() => {
-      count.value = 1;
+      count.value += 1;
     }, 1000);
 
     setTimeout(() => {
-      count.value = 2;
+      count.value += 1;
     }, 2000);
 
-    const stop = watchEffect((onCleanup) => {
-      console.log(count.value);
+    const stop = watch(count, (newValue, oldValue, onCleanup) => {
+      console.log('watch =>', newValue, oldValue);
 
       onCleanup(() => {
         console.log('清理无效的副作用');
       });
     }, {
+      immediate: true,
+      deep: false,
       flush: 'post',
       onTrack(e) {
         console.log('onTrack', e);
@@ -44,7 +46,6 @@ export default {
 
     setTimeout(() => {
       stop();
-      console.log('副作用函数已停止');
     }, 1500);
 
     return {
