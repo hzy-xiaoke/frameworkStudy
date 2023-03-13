@@ -1,15 +1,18 @@
 <template>
   <div>
-    <h2>{{ count }}-{{ state.count }}</h2>
-    <button @click="plusOne">count</button>
-    <button @click="plusTwo">state.count</button>
+    <p>count: {{ count }}</p>
+    <p>state.count: {{ state.count }}</p>
+    <button @click="changeCount">count</button>
+    <button @click="changeState">state.count</button>
   </div>
 </template>
 
 <script>
 import {
   ref,
-  reactive
+  reactive,
+  isRef,
+  unref
 } from 'vue';
 
 export default {
@@ -20,19 +23,33 @@ export default {
       count
     });
 
-    const plusOne = () => {
+    const changeCount = () => {
       count.value += 1;
     }
 
-    const plusTwo = () => {
+    const changeState = () => {
       state.count += 1;
     }
 
+    const commonObj = {
+      name: '张三',
+      age: 20
+    };
+    console.log(isRef(commonObj) ? commonObj.value : commonObj);
+    console.log(unref(commonObj));
+
+    const refObj = ref({
+      name: '张三',
+      age: 20
+    });
+    console.log(isRef(refObj) ? refObj.value : refObj);
+    console.log(unref(refObj));
+    
     return {
       count,
       state,
-      plusOne,
-      plusTwo
+      changeCount,
+      changeState
     }
   }
 }

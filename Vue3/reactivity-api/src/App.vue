@@ -1,5 +1,5 @@
 <template>
-  <to-refs-c></to-refs-c>
+  <template-ref-c></template-ref-c>
 </template>
 
 <script>
@@ -10,6 +10,8 @@ import WatchC from './components/WatchC.vue';
 import WatchMulC from './components/WatchMulC.vue';
 import ToRefC from './components/ToRefC.vue';
 import ToRefsC from './components/toRefsC.vue';
+import TemplateRefFather from './components/TemplateRefFather.vue';
+import TemplateRefC from './components/TemplateRefC.vue';
 
 export default {
   name: 'App',
@@ -20,8 +22,10 @@ export default {
     WatchC,
     WatchMulC,
     ToRefC,
-    ToRefsC
-  }
+    ToRefsC,
+    TemplateRefFather,
+    TemplateRefC
+  },
 }
 </script>
 
