@@ -12,9 +12,16 @@ export default {
     Grandpa
   },
   setup() {
-    const name = ref('张三');
+    const childName = ref('张三');
 
-    provide('childName', name);
+    const changeName = () => {
+      childName.value = '李四';
+    }
+
+    provide('childName', {
+      childName,
+      changeName
+    });
   }
 }
 </script>
