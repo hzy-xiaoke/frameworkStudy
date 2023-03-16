@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      
+      let sourceStr = 'Hello, JavaScript!';
+
+      console.log(sourceStr.replace('JavaScript', 'Java'));
+      console.log(sourceStr.replace(/javaScript/i, 'Java'));
+
+      let resultStrOne = sourceStr.replace('JavaScript', (match, offset, string) => {
+        console.log('match =>', match);
+        console.log('offset =>', offset);
+        console.log('string =>', string);
+        return 'Java';
+      });
+      console.log(resultStrOne);
+
+      let resultStrTwo = sourceStr.replace(/(?<one>Java)(?<two>Script)/i, 
+        (match, p1, p2, offset, string, NamedCaptureGroup) => {
+          console.log('match =>', match);
+          console.log('p1 =>', p1);
+          console.log('p2 =>', p2);
+          console.log('offset =>', offset);
+          console.log('string =>', string);
+          console.log('NamedCaptureGroup =>', NamedCaptureGroup);
+          return p1;
+        }
+      );
+      console.log(resultStrTwo);
+
+    </script>
+  </body>
+</html>
