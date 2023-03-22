@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css">
+    <script src="https://cdn.socket.io/4.6.0/socket.io.min.js" integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <div class="container">
+      <ul class="userList"></ul>
+      <div class="chatBox">
+        <div class="chatTitleArea">
+          <h3 class="chatTitle"></h3>
+          <span class="close" onclick="closeChatBox()">❌</span>
+        </div>
+        <ul class="messageList"></ul>
+        <div class="inputArea">
+          <textarea type="text" class="msgText"></textarea>
+          <button class="sendBtn" onclick="sendMessage()">发送</button>
+        </div>
+      </div>
+    </div>
+    <script>
+      const url = new URL(window.location);
+      const state = {
+        username: url.searchParams.get('username') || 'user-' + new Date().getTime(),
+        userList: null,
+        targetUsername: '',
+        messageBox: {}
+      };
+
+      const socket = io('http://localhost:3000', {
+        query: {
+          username: state.username
+        }
+      });
+
+      socket.on('online', (data) => {
+        state.userList = data.userList;
+        renderUserList();
+      });
+
+      socket.on('receive', ({ fromUsername, toUsername, message, dateTime }) => {
+        // 确保与发送者相关的消息结构是存在的
+        if (!state.messageBox[fromUsername]) {
+          state.messageBox[fromUsername] = [];
+        }
+
+        // 将消息对象添加到与发送者相关的消息结构中
+        state.messageBox[fromUsername].push({
+          fromUsername: fromUsername,
+          toUsername: toUsername,
+          message: message,
+          dateTime: dateTime
+        });
+
+        // 如果进入聊天框且与发送者为当前聊天对象,则渲染消息列表
+        if (state.targetUsername === fromUsername) {
+          renderMessageList();
+        }
+      });
+
+      // 进入聊天框
+      const enterChatBox = (username) => {
+        let oChatTitle = document.querySelector('.chatTitle');
+        let oChatBox = document.querySelector('.chatBox');
+        // 设置目标对象
+        state.targetUsername = username;
+        // 设置聊天框标题
+        oChatTitle.innerText = username;
+        // 显示聊天框
+        oChatBox.style.display = 'block';
+        // 渲染消息列表
+        renderMessageList();
+      }
+
+      // 发送信息
+      const sendMessage = () => {
+        let oMsgText = document.querySelector('.msgText');
+
+        if (oMsgText.value.trim().length === 0) {
+          return;
+        }
+
+        // 构建消息对象
+        let messageObj = {
+          fromUsername: state.username,
+          toUsername: state.targetUsername,
+          message: oMsgText.value,
+          dateTime: new Date().toLocaleString(),
+        };
+        
+        // 确保与接收者相关的消息结构是存在的
+        if (!state.messageBox[state.targetUsername]) {
+          state.messageBox[state.targetUsername] = [];
+        }
+        // 将消息对象添加到与接收者相关的消息结构中
+        state.messageBox[state.targetUsername].push(messageObj);
+
+        // 清空输入框内容
+        oMsgText.value = '';
+        // 渲染消息列表
+        renderMessageList();
+
+        // 触发服务端的自定义事件send,并将消息对象传入
+        socket.emit('send', messageObj);
+      }
+
+      // 关闭聊天框
+      const closeChatBox = () => {
+        let oChatBox = document.querySelector('.chatBox');
+        // 显示聊天框
+        oChatBox.style.display = 'none';
+        // 清空当前聊天对象
+        state.targetUsername = '';
+      }
+
+      // 渲染用户列表
+      function renderUserList() {
+        let oUserList = document.querySelector('.userList');
+        let htmlStr = ``;
+        for (let i = 0; i < state.userList.length; i++) {
+          if (state.userList[i].username === state.username) {
+            htmlStr += `<li>${state.userList[i].username}</li>`;
+          } else {
+            htmlStr += `<li class="active" onclick="enterChatBox('${state.userList[i].username}')">${state.userList[i].username}</li>`;
+          }
+        }
+        oUserList.innerHTML = htmlStr;
+      }
+
+      // 渲染消息列表
+      function renderMessageList() {
+        // 确保与接收者相关的消息结构是存在的
+        if (!state.messageBox[state.targetUsername]) {
+          state.messageBox[state.targetUsername] = [];
+        }
+
+        let oMessageList = document.querySelector('.messageList');
+        let htmlStr = ``;
+        for (let i = 0; i < state.messageBox[state.targetUsername].length; i++) {
+          const { fromUsername, message, dateTime } = state.messageBox[state.targetUsername][i];
+          if (fromUsername === state.username) {
+            htmlStr += `
+              <li class="messageItem float-right">
+                <p>【${fromUsername}】${dateTime}</p>
+                <p class="message">${message}</p>
+              </li>
+            `;
+          } else {
+            htmlStr += `
+              <li class="messageItem float-left">
+                <p>【${fromUsername}】${dateTime}</p>
+                <p class="message">${message}</p>
+              </li>
+            `;
+          }
+        }
+
+        oMessageList.innerHTML = htmlStr;
+      }
+
+    </script>
+  </body>
+</html>
