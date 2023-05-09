@@ -1,0 +1,7 @@
+diff a/src/views/Login.vue b/src/views/Login.vue	(rejected hunks)
+@@ -15 +15 @@ export default {
+-      if(this.$route.query.redirect){
++      if (this.$route.query.redirect) {
+@@ -17 +17 @@ export default {
+-      }else{
++      } else {

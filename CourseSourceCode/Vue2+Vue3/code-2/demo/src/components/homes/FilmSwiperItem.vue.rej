@@ -1,0 +1,4 @@
+diff a/src/components/homes/FilmSwiperItem.vue b/src/components/homes/FilmSwiperItem.vue	(rejected hunks)
+@@ -9 +9 @@ export default {
+-    name: 'FilmSwiperItem'
++  name: 'FilmSwiperItem'

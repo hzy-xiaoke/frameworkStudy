@@ -1,0 +1,4 @@
+diff a/src/views/Center.vue b/src/views/Center.vue	(rejected hunks)
+@@ -15 +15 @@ export default {
+-    handleLogout(){
++    handleLogout () {

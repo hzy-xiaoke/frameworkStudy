@@ -1,0 +1,13 @@
+diff a/src/views/home/ComingSoon.vue b/src/views/home/ComingSoon.vue	(rejected hunks)
+@@ -38 +38 @@ export default {
+-      isEnd: false, 
++      isEnd: false,
+@@ -53 +53 @@ export default {
+-    formatterDate(timestamp){
++    formatterDate (timestamp) {
+@@ -73 +73 @@ export default {
+-          'X-Host': 'mall.film-ticket.film.list',
++          'X-Host': 'mall.film-ticket.film.list'
+@@ -88 +88 @@ export default {
+-        'X-Host': 'mall.film-ticket.film.list',
++        'X-Host': 'mall.film-ticket.film.list'

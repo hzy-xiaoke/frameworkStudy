@@ -1,0 +1,7 @@
+diff a/src/views/Detail.vue b/src/views/Detail.vue	(rejected hunks)
+@@ -135 +135 @@ export default {
+-    handlePreview (images,index) {
++    handlePreview (images, index) {
+@@ -144 +144 @@ export default {
+-    actorPhotos(){
++    actorPhotos () {

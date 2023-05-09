@@ -1,0 +1,4 @@
+diff a/src/components/details/DetailSwiperItem.vue b/src/components/details/DetailSwiperItem.vue	(rejected hunks)
+@@ -9 +9 @@ export default {
+-    name: 'DetailSwiperItem'
++  name: 'DetailSwiperItem'

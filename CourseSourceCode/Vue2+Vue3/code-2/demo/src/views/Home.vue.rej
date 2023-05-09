@@ -1,0 +1,11 @@
+diff a/src/views/Home.vue b/src/views/Home.vue	(rejected hunks)
+@@ -34,3 +34,3 @@ export default {
+-      filmCoverList: [],  // 电影封面列表
+-      isLoop: true,   // 是否循环
+-      delay: 1500   // 延迟时长(多少秒切换下一张)
++      filmCoverList: [], // 电影封面列表
++      isLoop: true, // 是否循环
++      delay: 1500 // 延迟时长(多少秒切换下一张)
+@@ -48 +48 @@ export default {
+-      if(result.data.data === null){
++      if (result.data.data === null) {
