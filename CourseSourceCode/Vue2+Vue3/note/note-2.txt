@@ -1,0 +1,105 @@
+﻿1.vue-cli 4.5使用
+--安装  npm install -g @vue/cli
+--查看版本  vue --version
+--创建项目  vue create 项目名
+  --npm run serve  开发环境构建
+  --npm run build  生产环境构建
+  --npm run lint  代码检测工具
+
+2.单文件组件中关于style标签的点
+--加上scoped属性,css局部生效
+--加上lang="scss",支持scss
+
+3.路由原理
+--hash路由
+  --location.hash  切换
+  --window.onhashchange  监听路径的切换
+--history路由
+  --history.pushState  切换
+  --window.onpopstate  监听路径的切换
+
+4.this.$router和this.$route
+--this.$router  全局的路由对象(VueRouter)
+--this.$route  当前的路由对象(Object)
+
+5.路由拦截(守卫)
+--全局拦截(守卫)  
+  --router.beforeEach((to,from,next)=>{})
+--局部拦截(守卫) 
+  --组件内的守卫(放在组件内)   
+    --beforeRouteEnter(to, from, next){}    不能获取组件实例
+    --beforeRouteUpdate(to, from, next){}   可访问组件实例
+    --beforeRouteLeave(to, from, next){}   可访问组件实例
+  --路由独享的守卫(放在路由配置上)   beforeEnter: (to,from,next)=>{}
+
+6.使用swiper(6.3.5)
+--下载swiper模块 => npm/cnpm install swiper@6.3.5 --save
+--引入模块 => import Swiper from 'swiper/bundle'
+--引入样式 => import 'swiper/swiper-bundle.css'
+--在合适的位置创建实例 => new Swiper(...)
+
+7.使用字体图标
+--下载字体图标
+--在项目中使用
+  --放在public中,在index.html中通过link标签引入
+  --放在src/assets下,以模块的方式导入 
+
+8.滚动加载中可能需要获取的值
+--浏览器所有内容高度
+  --document.documentElement.scrollHeight
+  --document.body.scrollHeight
+  --document.body.clientHeight
+--浏览器可视部分高度
+  --document.documentElement.clientHeight 
+--浏览器滚动部分高度
+  --document.body.scrollTop
+  --document.documentElement.scrollTop
+  --区别
+    --IE浏览器
+      --没有DOCTYPE声明的时候,两个都可以用
+      --有DOCTYPE声明的时候,只能用document.documentElement.scrollTop
+    --Chrome和FireFox
+      --没有DOCTYPE声明的时候,用document.body.scrollTop
+      --有DOCTYPE声明的时候,用document.documentElement.scrollTop
+    --Safari
+      --使用window.pageYOffset
+
+9.字符与ASCII码互转
+--字符转ASCII码  字符.charCodeAt()
+--ASCII码转字符  String.fromCharCode(ASCII码)
+--常用字符的ASCII码
+  --大写字母(A-Z)  65-90
+  --小写字母(a-z)  97-122
+  --数字(0-9)  48-57
+
+10.git命令
+--初始化本地仓库 => git init  
+--添加到暂存区 => git add .   
+--查看git此时提交状态 => git status  
+--提交到本地仓库 => git commit -m '描述'  
+--查看提交记录 => git log   
+--回退上一个版本 => git reset --hard HEAD^  
+--还原到之前存在但经过回退后在log中不再显示的版本
+  --查看操作记录 => git reflog  
+  --git reset --hard 版本号
+--提交到远程仓库 => git push 
+  --提交前先拉取 => git pull
+  --拉取前先将本地代码提交到本地仓库
+  --有冲突解决解决后,在提交到本地仓库
+  --最后提交到远程仓库
+--从远程仓库拷贝代码 => git clone 地址
+--查看所有分支 => git branch -a
+--创建并切换到新分支 => git checkout -b 分支名
+--切换到指定分支 => git checkout 分支名
+--推送xxx分支到远程仓库 => git push origin xxx
+--xxx分支合并到主分支中
+  --先切换到主分支 => git checkout master
+  --将xxx分支合并到主分支 => git merge xxx
+--删除远程仓库中的xxx分支 => git push origin :xxx
+--删除本地的xxx分支 => git branch -d xxx
+--推送xxx分支到远程仓库的yyy分支 => git push origin xxx:yyy
+
+11.nginx相关命令
+--开启 => .\nginx.exe -c .\conf\nginx.conf
+--关闭 => .\nginx.exe -s stop
+--重新加载配置文件 => .\nginx.exe -s reload

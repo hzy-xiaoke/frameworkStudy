@@ -1,0 +1,31 @@
+.listItem{
+    width: 95%;
+    line-height: 2em;
+    font-size: 15px;
+    padding: 10px 10px;
+    border-bottom: 1px solid #eeeeee;
+}
+.listItem:hover{
+    background-color: #eeeeee;
+}
+.listItem:hover>button{
+    display: block;
+}
+.listItem:first-child{
+    border-top: 1px solid #eeeeee;
+    margin-top: 5px;
+}
+.listItem:last-child{
+    margin-bottom: 10px;
+}
+
+.itemButton{ 
+    width: 60px;
+    float: right;
+    display: none;
+    cursor: pointer;
+}
+
+label:hover{
+    cursor: pointer;
+}

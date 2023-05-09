@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <script src="../lib/vue.js"></script>
+        <style>
+            .navBox{
+                background: red; 
+                padding: 8px 20px; 
+                color: white; 
+                position: relative; 
+                height: 30px;
+            }
+            .navBox .back{
+                font-size: 25px; 
+                position: absolute; 
+                left: 25px; 
+                top: 50%; 
+                transform: translateY(-50%);
+            }
+            .navBox .title{
+                position: absolute; 
+                left: 50%; 
+                top: 50%; 
+                transform: translate(-50%,-50%);
+            }
+            .navBox .more{
+                position: absolute; 
+                right: 25px; 
+                top: 50%; 
+                transform: translateY(-50%);
+            }
+        </style>
+    </head>
+    <body>
+        <div id="box">
+            <navbar></navbar><br>
+            <navbar title="电影" :show-left="false" :show-right="false"></navbar><br>
+            <navbar title="影院"></navbar>
+        </div>
+    </body>
+    <script>
+        //定义全局组件
+        //组件名称若使用驼峰式命名,html中要用-来使用,如navBar => <nav-Bar></navBar>
+        Vue.component("navbar",{
+            //接收的属性,若使用驼峰式命名,在html中要用-来使用
+            // props: ["title","showLeft","showRight"],
+
+            //属性类型验证,属性类型不符控制台会给出错误提示
+            // props: {
+            //     title: String,
+            //     showLeft: Boolean,
+            //     showRight: Boolean
+            // },
+
+            //属性类型验证+默认属性值
+            props: {
+                title: {
+                    type: String,
+                    default: "标题"
+                },
+                showLeft: {
+                    type: Boolean,
+                    default: true
+                },
+                showRight: {
+                    type: Boolean,
+                    default: true
+                }
+            },
+            //template只能有一个根节点
+            template: `<div class="navBox">
+                <span @click="handleBack" v-show="showLeft" class="back"><</span>
+                <span class="title">{{title}}</span>
+                <span @click="handleMore" v-show="showRight" class="more">更多</span>
+            </div>`,
+            methods:{
+                handleBack(){
+                   console.log("返回上一级");
+                },
+                handleMore(){
+                    console.log("查看更多");
+                }
+            },
+            computed: {
+
+            },
+            watch: {
+
+            },
+            //状态需要使用函数写法
+            data(){
+                return {
+                    
+                }
+            },
+            //定义局部组件
+            components: {
+
+            }
+        })
+
+        new Vue({
+            el: "#box"
+        });
+
+    </script>
+</html>

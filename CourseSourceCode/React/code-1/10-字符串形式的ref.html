@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+    <body>
+        <div id="box"></div>
+
+        <script src="./js/react.development.js"></script>
+        <script src="./js/react-dom.development.js"></script>
+        <script src="./js/babel.min.js"></script>
+
+        <script type="text/babel">
+            //创建组件
+            class MyComponent extends React.Component{
+
+                showClickData = () => {
+                    const input = this.refs.inputClick;
+                    
+                    alert(input.value);
+                }
+
+                showBlurData = () => {
+                    const input = this.refs.inputBlur;
+
+                    alert(input.value);
+                }
+
+                render(){
+                    return (
+                        <div>
+                            <input ref="inputClick" type="text" placeholder="请输入内容后确认" />&nbsp;
+                            <button onClick={this.showClickData}>确认</button>&nbsp;
+                            <input ref="inputBlur" onBlur={this.showBlurData} type="text" placeholder="请输入内容后失焦" />
+                        </div>
+                    )
+                }
+            }
+            //渲染到页面
+            ReactDOM.render(<MyComponent />,document.getElementById("box"));
+
+        </script>
+    </body>
+</html>

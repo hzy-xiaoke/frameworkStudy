@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <script src="../lib/vue.js"></script>
+        <style>
+            ul li{ list-style: none; display: flex; margin-bottom: 10px; }
+            ul li>img{ width: 120px;}
+            ul li>div{ margin-left: 10px;}
+            ul li>div>span{ display: block; width: 180px; white-space: nowrap; text-overflow: ellipsis; 
+                overflow: hidden;}
+            #details{ width: 300px; min-height: 200px; border: 1px solid yellow; position: fixed;
+            top: 50px; left: 70%; transform: translateX(-50%); background: red; color: white; 
+            padding: 10px; box-sizing: border-box;}
+        </style>
+    </head>
+    <body>
+        <div id="box">
+            <button @click="handleAjax">获取并渲染</button>
+            
+            <film-list :films-data="datalist"></film-list>
+            <film-details></film-details>
+        </div>
+    </body>
+    <script>
+        let bus = new Vue();
+
+        //电影信息显示列表组件
+        Vue.component("filmList",{
+            props: ["filmsData"],
+            template: `<ul>
+                <li v-for="(item,index) in filmsData" :key="item.filmId">
+                    <img :src="item.poster" alt="">
+                    <div>
+                        <span>{{item.name}}</span>
+                        <br><br><br><br><br><br>
+                        <button @click="handleShowDetails(index)">剧情简介</button>
+                    </div>
+                </li>
+            </ul>`,
+            methods: {
+                handleShowDetails(index){
+                    bus.$emit("event",this.filmsData[index].synopsis);
+                }
+            }
+        })
+
+        //电影简介信息组件
+        Vue.component("filmDetails",{
+            //模板渲染成html后调用
+            mounted(){
+                bus.$on("event",(data) => {
+                    // console.log(data);
+                    this.filmInfo = data;
+                })
+            },
+            data(){
+                return {
+                    filmInfo: ""
+                }
+            },
+            template: `<div id="details">
+                {{filmInfo}}
+            </div>`
+        })
+
+        //根组件
+        var vm = new Vue({
+            el: "#box",
+            data: {
+                datalist: [],
+                detailsInfo: "" 
+            },
+            methods: {
+                handleAjax(){
+                    //获取json文件中的数据
+                    fetch("../data/maizuo.json")
+                        .then(result => result.json())
+                        .then(result => {
+                            console.log(result.data.films);
+                            //将获取的数据赋给datalist状态
+                            this.datalist = result.data.films;
+                        })
+                }
+            }
+        })
+        // vm.handleAjax();
+
+    </script>
+</html>

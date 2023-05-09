@@ -1,0 +1,19 @@
+.search-area{
+    width: 100%;
+    margin: 0 auto;
+    background-color: #eeeeee;
+    padding: 20px;
+    box-sizing: border-box;
+}
+.search-area>button{
+    margin-left: 5px;
+    padding: 1px 5px;
+    cursor: pointer;
+}
+.search-area>.search-input{
+    width: 180px;
+    margin-top: 10px;
+    height: 25px;
+    outline: none;
+    padding: 5px;
+}

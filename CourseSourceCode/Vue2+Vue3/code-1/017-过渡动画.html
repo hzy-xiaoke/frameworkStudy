@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <script src="../lib/vue.js"></script>
+        <style>
+            ul{
+                overflow-x: hidden;
+            }
+            .hzy-enter-active{
+                animation: move 1.5s ;
+            }
+            .hzy-leave-active{
+                animation: move 1.5s reverse;
+            }
+
+            @keyframes move{
+                0%{ opacity: 0; transform: translate(200px);}
+                100%{ opacity: 1; transform: translate(0px);}
+            }
+        </style>
+    </head>
+    <body>
+        <div id="box">
+
+            <input type="text" v-model="mytext">
+            <button @click="addElement()">add</button>
+        
+            <transition-group name="hzy" tag="ul">
+                <li v-for="(item,index) in dataList" :key="item.id">
+                    {{item.content}}=={{index}}---{{item.id}}
+                    <button @click="removeElement(index)">del</button>
+                </li>
+            </transition-group> 
+
+            <div v-show="!dataList.length">暂无元素</div>
+        </div>
+        
+        <script>
+            let vm = new Vue({
+                el: "#box",
+                data: {
+                    dataList: [{id: 1,content: "a"},{id: 2,content: "b"},{id: 3,content: "c"}],
+                    mytext:"init",
+                    number: 0
+                },
+                methods: {
+                    init(){
+                        console.log(this.number)
+                        this.number = this.dataList.length + 1;
+                        console.log(this.number)
+                    },
+                    addElement(){
+                        this.dataList.push({
+                            id: this.number++,
+                            content: this.mytext
+                        });
+                        // 清空
+                        this.mytext = "";
+                    },
+                    removeElement(index){
+                        this.dataList.splice(index,1);
+                    }
+                }
+                
+            });
+
+            vm.init();
+
+        </script>
+    </body>
+</html>

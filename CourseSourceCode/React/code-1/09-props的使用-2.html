@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+    <body>
+        <div id="box"></div>
+
+        <script src="./js/react.development.js"></script>
+        <script src="./js/react-dom.development.js"></script>
+        <script src="./js/babel.min.js"></script>
+        <script src="./js/prop-types.js"></script>
+
+        <script type="text/babel">
+
+            function Person(props){
+                const {name,sex,age} = props;
+                return (
+                    <ul>
+                        <li>姓名：{name}</li>
+                        <li>性别：{sex}</li>
+                        <li>年龄：{age}</li>
+                    </ul>
+                )
+            }
+            //属性限制
+            Person.propTypes = {
+                name: PropTypes.string.isRequired,
+                sex: PropTypes.string,
+                age: PropTypes.number
+            }
+            //属性默认
+            Person.defaultProps = {
+                sex: "男",
+                age: 20
+            }
+
+            ReactDOM.render(<Person name="张三"/>,document.getElementById("box"));
+
+        </script>
+    </body>
+</html>

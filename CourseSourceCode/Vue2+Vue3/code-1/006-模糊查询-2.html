@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <script src="../lib/vue.js"></script>
+    </head>
+    <body>
+        <div id="box">
+            <input type="text" v-model="text">
+            
+            <ul>
+                <li v-for="item in filterItem" :key="item">
+                    {{item}}
+                </li>
+            </ul>
+        </div>
+        <script>
+            new Vue({
+                el: "#box",
+                data: {
+                    text: "",
+                    dataList: ["aaa","sdgffs","sdasv","vjah","asoqc","aabdso"]
+                },
+                computed: {
+                    filterItem(){
+                        return this.dataList.filter((item) => {
+                            return item.includes(this.text);
+                        });
+                    }
+                },
+                methods: {
+                    
+                }
+            })
+
+        </script>
+    </body>
+</html>

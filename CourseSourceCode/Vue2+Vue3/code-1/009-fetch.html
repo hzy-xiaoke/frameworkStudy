@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <script src="../lib/vue.js"></script>
+        <style>
+            ul li{ list-style: none;margin-bottom: 5px; display: flex; }
+            ul li img{ display: block; width: 120px; }
+
+            .info{ margin-left: 10px;}
+            .info p{ width: 220px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;}
+            
+            .info p:nth-of-type(1){ font-size: 15px;}
+            .info p:nth-of-type(1)>span{ display: inline-block; width: 30px; height: 20px; background: #eeeeee;
+            font-size: 12px; text-align: center; line-height: 20px;}
+            .info p:nth-of-type(2)>span{ color: orange;}
+        </style>
+    </head>
+    <body>
+        <div id="box">
+            <button @click="handleFetch">获取并渲染</button>
+            <ul>
+                <li v-for="data in datalist" :key="data.filmId">
+                    <img :src="data.poster" alt="">
+                    <div class="info">
+                        <p>{{data.name}} <span>{{data.filmType.name}}</span></p>
+                        <p>观众评分 <span>{{data.grade}}</span></p>
+                        <p>主演：<span v-for="actor in data.actors">{{actor.name}} </span></p>
+                        <p>{{data.nation}} | {{data.runtime}}分钟</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </body>
+    <script>
+
+        var vm = new Vue({
+            el: "#box",
+            data: {
+                datalist: []
+            },
+            methods: {
+                handleFetch(){
+                    fetch("../data/maizuo.json")
+                    .then(result => result.json())
+                    .then(result => {
+                        console.log(result.data.films);
+                        this.datalist = result.data.films;
+                    })
+                }
+            }
+        });
+
+        // vm.handleFetch();
+    </script>
+</html>

@@ -1,0 +1,25 @@
+.bigBox{
+    background-color: pink;
+    text-align: center;
+    padding: 8px;
+}
+
+.middleBox{
+    background-color: skyblue;
+    padding: 8px;
+}
+
+.smallBox{
+    flex: 1;
+    padding: 8px;
+}
+.smallBox:first-child{
+    background-color: lightgreen;
+}
+.smallBox:last-child{
+    background-color: lightyellow;
+}
+
+.flexContainer{
+    display: flex;
+}

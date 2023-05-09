@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <script src="../lib/vue.js"></script>
+        <style>
+            *{ margin: 0; padding: 0;}
+            .mask{
+                background: rgba(0,0,0,0.4);
+                width: 100%;
+                height: 100%;
+                position: fixed;
+                top: 0;
+                right: 0;
+                left: 0;
+                bottom: 0;
+            }
+            .dialog{
+                width: 400px;
+                height:250px;
+                background: white;
+                text-align: center;
+                margin: 150px auto 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+            input{
+                outline: none;
+            }
+            button{
+                margin: 10px;
+                width: 60px;
+                height: 30px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="box">
+            <button @click="isShow=true">显示</button>
+            <!-- 阻止冒泡2(放父级)  @click.self -->
+            <div class="mask" v-show="isShow" @click.self="isShow=false">
+                <!-- 阻止冒泡1(放子级)  @click.stop -->
+                <div class="dialog">
+                    <div>
+                        <div>
+                            <label for="">用户名：</label>
+                            <input type="text">
+                        </div>
+                        <div>
+                            <label for="">密&ensp;&ensp;码：</label>
+                            <input type="password">
+                        </div>
+                    </div>
+                    <br><br>
+                    <div>
+                       <button>登录</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script>
+        new Vue({
+            el: "#box",
+            data: {
+                isShow: false
+            }
+        });
+    </script>
+</html>

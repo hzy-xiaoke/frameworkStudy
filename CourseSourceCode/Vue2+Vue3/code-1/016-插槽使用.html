@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <script src="../lib/vue.js"></script>
+    </head>
+    <body>
+        <div id="box">
+            <navbar>
+                <!-- v-slot:btn也可以简写成#btn -->
+                <template v-slot:btn>
+                    <button @click="isShow=!isShow">展开 / 收起</button>
+                </template>
+            </navbar>
+            <!-- 父组件通过属性传给子组件数据 -->
+            <sidebar :is-show="isShow"></sidebar>
+        </div>
+    </body>
+    <script>
+        //全局组件
+        Vue.component("navbar",{
+            template: `<div style="height: 40px; background: skyblue; line-height: 40px;
+                padding: 0 10px;">
+                <!--具名插槽-->
+                <slot name="btn"></slot>
+            </div>`,
+            methods: {
+                
+            }
+        });
+        //全局组件
+        Vue.component("sidebar",{
+            props: {
+                isShow: {
+                    type: Boolean,
+                    default: false
+                }
+            },
+            template: `<div v-show="isShow" style="width: 300px; height: 500px; background: #eeeeee; 
+                            padding: 10px 0; margin-top:10px;">
+                <ul type="circle">
+                    <li>项目1</li><br>
+                    <li>项目2</li><br>
+                    <li>项目3</li><br>
+                    <li>项目4</li><br>
+                    <li>项目5</li><br>
+                </ul>
+            </div>`
+        })
+
+        //根组件
+        new Vue({
+            el: "#box",
+            data: {
+                isShow: false
+            },
+            methods: {
+                handleClick(){
+                    this.isShow = !this.isShow;
+                }
+            }
+        })
+
+    </script>
+</html>

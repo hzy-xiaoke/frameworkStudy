@@ -1,0 +1,78 @@
+1.setState更新状态的2种写法
+--setState(stateChange, [callback])  => 对象式的setState
+  --stateChange为状态改变对象(体现状态的更改)
+  --callback是可选的回调函数,在状态更新完毕后,界面也更新后才被调用
+--setState(updater, [callback])  => 函数式的setState
+  --updater为返回stateChange对象的函数
+  --updater可以接收state和props
+  --callback是可选的回调函数,在状态更新完毕后,界面也更新后才被调用
+--说明
+  --对象式的setState是函数式的setState的简写方法(语法糖)
+  --使用建议
+    --如果新状态不依赖于原状态 => 使用对象方式
+    --如果新状态依赖于原状态 => 使用函数方式
+    --如果需要setState()执行后获取最新的状态数据,要在第二个callback函数中读取
+
+2.三个常用的Hook
+--State Hook => React.useState()
+  --让函数组件也可以有state状态,并进行状态数据的读写操作
+  --语法 => const [xxx,setXxx] = React.useState(initValue)
+  --useState()说明
+    --参数: 第一次初始化指定的值,在内部作缓存
+    --返回值: 包含2各元素的数组,第1个为内部当前状态值,第2个为更新状态值的函数
+  --setXxx()的2种写法
+    --setXxx(newValue) => 参数为非函数值,直接指定新的状态值,内部用其覆盖原来的状态值
+    --setXxx(value => newValue) => 参数为函数,接收原来的状态值,返回新的状态值,内部用其覆盖原来的状态值
+--Effect Hook => React.useEffect()
+  --在函数组件中执行副作用操作(用于模拟类组件中的生命周期钩子)
+    --React中的一些副作用操作
+      --发ajax请求获取数据
+      --设置订阅
+      --启动定时器
+      --手动更改真实DOM
+  --语法和说明
+    useEffect(() => {
+      //执行副作用操作
+      return () => {  //在组件卸载前执行
+          //做一些收尾工作,如清除定时器
+      }
+    },[stateValue])  //指定需要监测的状态
+--Ref Hook => React.useRef()
+  --可以在函数组件中存储/查找组件内的标签或者其数据
+  --语法 => const refContainer = React.useRef()
+
+3.Context
+--一种组件间通信方式,常用于[组组件]与[后代组件]间的通信(隔代通信)
+--使用方式
+  --创建Context容器对象(需放在组件都能访问到的位置)
+    --const XxxContext = React.createContext()
+  --渲染子组件时,外层包裹<XxxContext.Provider>,通过value属性给后代组件传递数据
+  --后代组件读取数据
+    --第一种方式(仅适用于类组件)
+      --声明接收context => static contextType = XxxContext
+      --读取context中的value数据 => this.context
+    --第二种方法(类组件和函数组件都适用)
+      <XxxContext.Consumer>
+        {
+          value => (    //value就是context中的value
+            //显示的内容
+          )
+        }
+      </XxxContext.Consumer>
+--在应用开发中一般不用context,一般都用它来封装react插件
+
+4.错误边界
+--用来捕获后代组件错误,渲染出备用页面
+--只能捕获后代组件生命周期产生的错误,不能捕获自己组件产生的错误和其他组件在合成事件、
+  定时器中产生的错误
+--使用方式 => getDeriveStateFromError配合componentDidCatch
+
+5.组件通信方式
+--props => children props,render props
+--消息订阅-发布 => pubs-sub,event等
+--集中式管理 => redux,dva等
+--context => 生产者-消费者模式
+--组件通信搭配推荐
+  --父子组件 => props
+  --兄弟组件(非嵌套组件) => 消息订阅-发布,集中式管理
+  --祖孙组件(跨级组件) => 消息订阅-发布,集中式管理,context

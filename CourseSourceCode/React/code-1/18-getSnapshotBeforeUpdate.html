@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <style>
+            .list{
+                width: 250px;
+                height: 150px;
+                background-color: lightgreen;
+                overflow: auto;
+            }
+            .list>div{
+                height: 30px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="box"></div>
+
+        <script src="./js/react.development.js"></script>
+        <script src="./js/react-dom.development.js"></script>
+        <script src="./js/babel.min.js"></script>
+        <script src="./js/prop-types.js"></script>
+
+        <script type="text/babel">
+            //创建组件
+            class NewsScroll extends React.Component{
+
+                //状态
+                state = {
+                    newsList: []
+                }
+
+                myRef = React.createRef();
+
+                //组件挂载完毕
+                componentDidMount(){
+                    setInterval(() => {
+                        //获取之前的新闻列表
+                        const {newsList} = this.state;
+                        //模拟创建一条新闻
+                        const news = '新闻' + (newsList.length + 1);
+                        //更新新闻列表
+                        this.setState({
+                            newsList: [news,...newsList]
+                        })
+                    },1000);
+                }
+
+                //组件更新前获取快照
+                getSnapshotBeforeUpdate(){
+                    return this.myRef.current.scrollHeight
+                }
+
+                //组件更新完毕后
+                componentDidUpdate(prevProps,prevState,snapshot){
+                    console.log(this.myRef.current.scrollTop)
+                    this.myRef.current.scrollTop += this.myRef.current.scrollHeight - snapshot; 
+                }
+
+                render(){
+                    return (
+                        <div className="list" ref={this.myRef}>
+                            {
+                                this.state.newsList.map((item,index) => {
+                                    return <div key={index}>{item}</div>
+                                })
+                            }
+                        </div>
+                    )
+                }
+            }
+
+            //渲染组件
+            ReactDOM.render(<NewsScroll />,document.getElementById("box"));
+        </script>
+    </body>
+</html>

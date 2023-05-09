@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <script src="../lib/vue.js"></script>
+        <style>
+            #box{
+                width: 50%;
+            }
+            table{
+                width: 100%;
+                border-collapse: collapse;
+            }
+            table,table th,table td{
+                border:1px solid #ccc;
+                text-align: center;
+            }
+            img{
+                width: 100px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="box">
+            <div v-if="isCreate">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>
+                                <input type="checkbox" v-model="isAll" @change="handleAllChecked"> 全选/全不选
+                            </th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(item,index) in datalist" :key="item.id">
+                            <td>
+                                <input type="checkbox" v-model="checkList" :value="item" @change="handleItemChecked">
+                            </td>
+                            <td>
+                                <img :src="item.pic" alt="">
+                            </td>
+                            <td>
+                                <p>{{item.name}}</p>
+                                <p style="color: red;">￥{{item.price}}</p>
+                            </td>
+                            <td>
+                                <button @click="item.num--" :disabled="item.num===1">-</button>
+                                <span>{{item.num}}</span>
+                                <button @click="item.num++" :disabled="item.num===item.limit">+</button>
+                            </td>
+                            <td>
+                                <button @click="handleDelete(index,item.id)">删除</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div>
+                    <div>总数量：<span>{{calcTotalNum}}</span> 件
+                    </div>
+                    <div>总金额：<span>{{calcTotalPrice}}</span> 元</div>
+                </div>
+            </div>
+            
+            <div v-if="!isCreate">空空如也</div>
+        </div>
+    </body>
+    <script>
+        new Vue({
+            el: "#box",
+            data: {
+                isAll: false,   //是否全选
+                isCreate: true,
+                checkList: [],
+                datalist: [{
+                    id: 1,
+                    name: "收纳盒",
+                    price: 12.5,
+                    num: 1,
+                    limit: 5,
+                    pic: "../images/13.jpg"
+                },{
+                    id: 2,
+                    name: "包装纸",
+                    price: 2.5,
+                    num: 2,
+                    limit: 10,
+                    pic: "../images/14.jpg"
+                },{
+                    id: 3,
+                    name: "蛋壳笔筒",
+                    price: 6.8,
+                    num: 3,
+                    limit: 4,
+                    pic: "../images/23.jpg"
+                }]
+            },
+            computed:{
+                //计算总数量
+                calcTotalNum(){
+                    let totalNum = 0;
+                    this.checkList.forEach(item => {
+                        totalNum += item.num
+                    }); 
+                    return totalNum;
+                },
+                //计算总金额
+                calcTotalPrice(){
+                    let totalPrice = 0;
+                    this.checkList.forEach(item => {
+                        totalPrice += item.num * item.price
+                    });
+                    return totalPrice;
+                }
+            },
+            methods: {
+                //删除某条记录
+                handleDelete(index,id){
+                    //移除元素数据
+                    this.datalist.splice(index,1);
+                    //更新选中的记录数据
+                    this.checkList = this.checkList.filter(item => item.id != id);
+                    this.handleItemChecked();
+                    if(this.datalist.length === 0){
+                        this.isCreate = false;
+                    }
+                },
+                //全选处理
+                handleAllChecked(){
+                    //如果全选,原始数据赋值给全选数据
+                    if(this.isAll){
+                        this.checkList = this.datalist;
+                    }else{  //全不选,则置空
+                        this.checkList = [];
+                    }
+                },
+                //子记录选中处理
+                handleItemChecked(){
+                    //如果选中的数组长度和原始数组长度相等,则为全选
+                    if(this.checkList.length === this.datalist.length){
+                        this.isAll = true;
+                    }else{
+                        this.isAll = false;
+                    }   
+                }
+            }
+        });
+    </script>
+</html>

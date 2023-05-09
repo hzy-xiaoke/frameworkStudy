@@ -1,0 +1,210 @@
+{
+    "chiefBonus": {},
+    "coming": [],
+    "movieIds": [
+        257706,
+        1417305,
+        1302992,
+        1328693,
+        1298314,
+        1332432,
+        1356063,
+        1296950,
+        1360088
+    ],
+    "stid": "576591972453269000",
+    "stids": [
+        {
+            "movieId": 257706,
+            "stid": "576591972453269000_a257706_c0"
+        },
+        {
+            "movieId": 1417305,
+            "stid": "576591972453269000_a1417305_c1"
+        },
+        {
+            "movieId": 1302992,
+            "stid": "576591972453269000_a1302992_c2"
+        },
+        {
+            "movieId": 1328693,
+            "stid": "576591972453269000_a1328693_c3"
+        },
+        {
+            "movieId": 1298314,
+            "stid": "576591972453269000_a1298314_c4"
+        },
+        {
+            "movieId": 1332432,
+            "stid": "576591972453269000_a1332432_c5"
+        },
+        {
+            "movieId": 1356063,
+            "stid": "576591972453269000_a1356063_c6"
+        },
+        {
+            "movieId": 1296950,
+            "stid": "576591972453269000_a1296950_c7"
+        },
+        {
+            "movieId": 1360088,
+            "stid": "576591972453269000_a1360088_c8"
+        }
+    ],
+    "total": 9,
+    "movieList": [
+        {
+            "id": 257706,
+            "haspromotionTag": false,
+            "img": "http://p1.meituan.net/w.h/movie/8130663f1e7d55570cdd74616460656d491654.jpg",
+            "version": "v2d imax",
+            "nm": "长津湖",
+            "preShow": false,
+            "sc": 9.5,
+            "globalReleased": true,
+            "wish": 1012616,
+            "star": "吴京,易烊千玺,段奕宏",
+            "rt": "2021-09-30",
+            "showInfo": "今天3家影院放映38场",
+            "showst": 3,
+            "wishst": 0,
+            "comingTitle": "9月30日 周四"
+        },
+        {
+            "id": 1417305,
+            "haspromotionTag": false,
+            "img": "http://p1.meituan.net/w.h/mmdb/ceab1c48a4a1e2d9fe941757ee2f5152256864.jpg",
+            "version": "v2d imax",
+            "nm": "我和我的父辈",
+            "preShow": false,
+            "sc": 9.5,
+            "globalReleased": true,
+            "wish": 301354,
+            "star": "吴京,章子怡,徐峥",
+            "rt": "2021-09-30",
+            "showInfo": "今天3家影院放映21场",
+            "showst": 3,
+            "wishst": 0,
+            "comingTitle": "9月30日 周四"
+        },
+        {
+            "id": 1302992,
+            "haspromotionTag": false,
+            "img": "http://p0.meituan.net/w.h/movie/6d05d35d68dcc56bc33dabe8292921772841425.jpg",
+            "version": "",
+            "nm": "大耳朵图图之霸王龙在行动",
+            "preShow": false,
+            "sc": 8.9,
+            "globalReleased": true,
+            "wish": 64107,
+            "star": "李晔,潘延,范楚绒",
+            "rt": "2021-10-01",
+            "showInfo": "今天3家影院放映4场",
+            "showst": 3,
+            "wishst": 0,
+            "comingTitle": "10月1日 周五"
+        },
+        {
+            "id": 1328693,
+            "haspromotionTag": false,
+            "img": "http://p0.meituan.net/w.h/mmdb/81ca765741e6bbb430d213f736a50c964487800.jpg",
+            "version": "v2d imax",
+            "nm": "五个扑水的少年",
+            "preShow": false,
+            "sc": 9.4,
+            "globalReleased": true,
+            "wish": 147567,
+            "star": "辛云来,冯祥琨,李孝谦",
+            "rt": "2021-10-01",
+            "showInfo": "今天2家影院放映2场",
+            "showst": 3,
+            "wishst": 0,
+            "comingTitle": "10月1日 周五"
+        },
+        {
+            "id": 1298314,
+            "haspromotionTag": false,
+            "img": "http://p0.meituan.net/w.h/movie/b862a85e39d28201838f98961e09d7191298056.jpg",
+            "version": "",
+            "nm": "皮皮鲁与鲁西西之罐头小人",
+            "preShow": false,
+            "sc": 9.1,
+            "globalReleased": true,
+            "wish": 46852,
+            "star": "洪悦熙,庄则熙,田雨",
+            "rt": "2021-09-30",
+            "showInfo": "今天3家影院放映6场",
+            "showst": 3,
+            "wishst": 0,
+            "comingTitle": "9月30日 周四"
+        },
+        {
+            "id": 1332432,
+            "haspromotionTag": false,
+            "img": "http://p1.meituan.net/w.h/movie/01ff68b51674346cb5376f93bc5e8a73574392.jpg",
+            "version": "",
+            "nm": "拯救甜甜圈：时空大营救",
+            "preShow": false,
+            "sc": 0,
+            "globalReleased": true,
+            "wish": 49433,
+            "star": "宝木中阳,朱蓉蓉,姜广涛",
+            "rt": "2021-10-03",
+            "showInfo": "今天2家影院放映2场",
+            "showst": 3,
+            "wishst": 0,
+            "comingTitle": "10月3日 周日"
+        },
+        {
+            "id": 1356063,
+            "haspromotionTag": false,
+            "img": "http://p0.meituan.net/w.h/mmdb/e93bb766c6fe26424f6f9609d99768de3910793.jpg",
+            "version": "v2d imax",
+            "nm": "峰爆",
+            "preShow": false,
+            "sc": 9.4,
+            "globalReleased": true,
+            "wish": 171770,
+            "star": "朱一龙,黄志忠,陈数",
+            "rt": "2021-09-17",
+            "showInfo": "今天3家影院放映4场",
+            "showst": 3,
+            "wishst": 0,
+            "comingTitle": "9月17日 周五"
+        },
+        {
+            "id": 1296950,
+            "haspromotionTag": false,
+            "img": "http://p1.meituan.net/w.h/movie/e64b4bec8af164962559bdbe243ecb551138615.jpg",
+            "version": "v3d",
+            "nm": "老鹰抓小鸡",
+            "preShow": false,
+            "sc": 8.9,
+            "globalReleased": true,
+            "wish": 50017,
+            "star": "刘星佐,杏林儿,陈浩",
+            "rt": "2021-10-01",
+            "showInfo": "今天3家影院放映4场",
+            "showst": 3,
+            "wishst": 0,
+            "comingTitle": "10月1日 周五"
+        },
+        {
+            "id": 1360088,
+            "haspromotionTag": false,
+            "img": "http://p0.meituan.net/w.h/movie/c9f8427157e1a00c5d0c285807332c3e4925236.jpg",
+            "version": "",
+            "nm": "关于我妈的一切",
+            "preShow": false,
+            "sc": 9.3,
+            "globalReleased": true,
+            "wish": 154657,
+            "star": "徐帆,张婧仪,许亚军",
+            "rt": "2021-09-19",
+            "showInfo": "今天2家影院放映3场",
+            "showst": 3,
+            "wishst": 0,
+            "comingTitle": "9月19日 周日"
+        }
+    ]
+}

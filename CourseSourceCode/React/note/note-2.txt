@@ -1,0 +1,118 @@
+1.github搜索案例涉及的知识点
+--设计状态时要考虑全面,如涉及网络请求时,需要考虑请求成功和失败的情况
+--解构赋值+重命名
+  --例子: const {a: {b: test}} = obj
+    --从obj中获取a的值,再从a中获取b的值,接着将b进行重命名为test
+    --作为解构结果的变量当对其再次解构或被重命名后,其生涯就结束了,
+      即例子中的语句结束只有原来的obj和最终的test可以使用
+--消息订阅与发布机制
+  --先订阅,再发布
+  --适用于任意组件间通信
+  --在组件将要卸载时(componentWillUnmount)最好取消订阅
+--fetch发送请求 => 关注分离的设计思想
+
+2.路由
+--一个路由就是一个映射关系(key:value)
+--路由分类
+  --后端路由
+    --value是function,用来处理客户端提交的请求
+    --工作过程
+      --当前服务器接收到一个请求,根据请求路径找到匹配的路由,
+        调用路由中的函数来处理请求,返回响应数据
+  --前端路由
+    --value是component,用于展示页面内容
+    --工作过程
+      --当浏览器的path路径变化时,当前路由组件会切换为路由配置
+        找到相对应的组件
+
+3.Switch
+--通常情况下,path和component是一一对应关系.
+--Switch可以提高路由匹配效率(单一匹配)
+--版本更新问题
+  --在6.x.x中Switch被重命名为Routers了
+  --Router中的component也更新为element了,
+    支持更加复杂的结构了
+  --新版本还有许多改变的地方,待探索
+
+4.路由history模式下多级路径刷新页面样式丢失的问题
+--在history模式(BrowserRouter)下,引入样式文件使用相对路径可能导致
+  在页面刷新时,因请求路径不存在而导致加载的是public中的index.html文件
+--解决方案
+  --在index.html引入样式时,采用绝对路径
+    --%PUBLIC_URL%/xxx/xxx
+    --/xxx/xxx
+  --路由模式切换为hash模式(HashRouter)
+
+5.路由的严格匹配与模糊匹配
+--默认使用的是模糊匹配(如当Link中to="/a/b/c",Router中path="/a"时,就算匹配)
+--开启严格匹配 => 在Route中加入exact={true}或直接加入exact
+--严格匹配不要随便开启,因为在某些情况下可能会影响之后二级路由的匹配
+
+6.向路由组件传递参数
+--params参数
+  --路由链接设置 => <Link to="/home/news/detail/102">详情信息</Link>
+  --注册路由 => <Route path="/home/news/detail/:id" component={Detail} />
+  --接收参数 => this.props.match.param(js对象,可直接用,地址栏有体现)
+--search参数
+  --路由链接设置 => <Link to="/home/news/detail?id=102"></Link>
+  --注册路由 => <Route path="/home/news/detail" component={Detail} />
+  --接收参数 => this.props.location.search(urlencoded字符串,需进一步处理,地址栏有体现)
+--state参数
+  --路由链接设置 => <Link to={{pathname: "/home/news/detail",state={id: 102}}}></Link>
+  --注册路由 => <Route path="/home/news/detail" component={Detail} />
+  --接收参数 => this.props.location.state(js对象,地址栏无体现,但刷新也可保留参数)
+
+7.编程式路由导航
+--this.props.history.push()  如:(栈底)页面1(栈顶) => push(页面2) => (栈底)页面1 页面2(栈顶) 
+--this.props.history.replace()  如:(栈底)页面1(栈顶) => replace(页面2) => (栈底)页面2(栈顶)
+--this.props.history.goBack()  回退
+--this.props.history.goForward()  前进
+--this.props.history.go(n)  n<0 => 回退n,n=0 => 刷新,n>0 => 前进n
+
+8.withRouter可以加工一般组件,让一般组件具备路由组件所特有的API,返回值是一个新组件
+
+9.BrowserRouter与HashRouter的区别
+--底层原理不一样
+  --BrowserRouter使用的是H5的history API,不兼容IE9及以下版本
+  --HashRouter使用的是URL的哈希值
+--url表现形式不一样
+  --BrowserRouter的路径中没有#
+  --HashRouter的路径中包含#
+--刷新后对路由的state参数的影响存在差异
+  --BrowserRouter没有任何影响,因为state保存在history对象中
+  --HashRouter刷新后会导致路由state参数丢失
+
+10.个人对于store和reducer的理解
+--store => 其就像一个商店,一般主要用来转出商品而不涉及商品加工的相关流程,给买家提供商品购买源
+--reducer => 其就像一个加工厂,根据需求来对商品进行一定的加工和改造,给商店提供货物来源
+--对store进行创建时使用createStore(xxxReducer),就像开了一家商店,而传入的参数就好比为该商店
+  提供货物来源的那家加工厂
+--在reducer中,通过action来获取type和data,其中的type就好比商店给加工厂下一个需要生成某种类型
+  的商品,而data就好比要对这种商品加工的一些细节进行说明一样
+
+11.react-redux的基本使用
+--两个概念
+  --UI组件: 不能使用任何redux的api,只负责页面的呈现,交互等
+  --容器组件: 负责和redux通信,将结果交给UI组件
+--创建一个容器组件
+  --使用react-redux的connect函数,
+    connect(mapStateToProps,mapDispatchToProps)(UI组件)
+    --mapStateToProps => 映射状态
+    --mapDispatchToProps => 映射操作状态的方法
+--容器组件中的store是靠props传进去的,而不是在容器组件中直接引入
+--mapDispatchToProps也可以是一个对象(或许是react-redux中对其类型进行判断后,
+  决定是否主动调用dispatch)
+--使用react-redux后不用再自己检测redux中状态的改变了
+
+12.redux的reducer函数必须是一个纯函数
+--纯函数必须遵守的一些约束
+  --不得修改参数数据
+  --不会产生任何副作用,例如网络请求,输入和输出设备
+  --不能调用Date.now()或者Math.random()等不纯的方法
+
+13.react-redux开发者工具的使用
+--下载相关的扩展程序(Redux DevTools)
+--下载相关的node模块 => npm install redux-devtools-extension
+--在store中进行配置
+  --import { composeWithDevTools } from 'redux-devtools-extension'
+  --const store = createStore(xxxxReducer,composeWithDevTools(支持异步action的代码))

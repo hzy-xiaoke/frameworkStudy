@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <script src="../lib/vue.js"></script>
+    </head>
+    <body>
+        <div id="box">
+            <!--双向绑定输入框的value -->
+            <input type="text" v-model="mytext">
+            <button @click="addElement()">add</button>
+        
+            <ul v-show="dataList.length">
+                <li v-for="(item,index) in dataList">
+                    {{item}}=={{index}} 
+                    <button @click="removeElement(index)">del</button>
+                </li>
+            </ul>    
+
+            <div v-show="!dataList.length">暂无元素</div>
+        </div>
+        
+        <script>
+            new Vue({
+                el: "#box",
+                data: {
+                    dataList: ["a","b","c"],
+                    mytext:"init"
+                },
+                methods: {
+                    addElement(){
+                        this.dataList.push(this.mytext);
+                        // 清空
+                        this.mytext = "";
+                    },
+                    removeElement(index){
+                        this.dataList.splice(index,1);
+                    }
+                }
+                
+            })
+
+
+        </script>
+    </body>
+</html>

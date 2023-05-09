@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+    <body>
+        <div id="box"></div>
+
+        <script src="./js/react.development.js"></script>
+        <script src="./js/react-dom.development.js"></script>
+        <script src="./js/babel.min.js"></script>
+
+        <script type="text/babel">
+
+            class Weather extends React.Component{
+                
+                constructor(props){
+                    super(props);
+                    this.state = {
+                        isHot: true,
+                        desc: '但没事'
+                    }
+                    //解决handleChange中的this指向问题
+                    this.handleChange = this.handleChange.bind(this);
+                }
+
+                render(){
+                    console.log(this);
+                    return <h2 onClick={this.handleChange}>今天有点{this.state.isHot?'热':'冷'}呀,{this.state.desc}</h2>
+                }
+
+                handleChange(){
+                    const isHot = this.state.isHot;
+                    //状态必须通过setState进行更新,且更新是一种合并
+                    this.setState({
+                        isHot: !isHot
+                    })
+                }
+            }
+
+            ReactDOM.render(<Weather/>,document.getElementById("box"));
+
+        </script>
+    </body>
+</html>

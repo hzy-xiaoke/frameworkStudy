@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <link rel="stylesheet" href="../lib/swiper-4.4.2/css/swiper.css">
+        <script src="../lib/swiper-4.4.2/js/swiper.js"></script>
+        <script src="../lib/vue.js"></script>
+    </head>
+    <body>
+        <div id="box">
+            <swiper :key="datalist.length" :loop="false">
+                <swiper-item v-for="data in datalist" :key="data">
+                    <img :src="data" alt="">
+                </swiper-item>
+            </swiper>
+        </div>
+    </body>
+    <script>
+        Vue.component("swiper-item",{
+            template: `
+                <div class="swiper-slide">
+                    <slot></slot>
+                </div>`
+        })
+
+        Vue.component("swiper",{
+            props: {
+                loop: {
+                    type: Boolean,
+                    default: true
+                },
+            },
+            template: `
+                <div class="swiper-container">
+                    <div class="swiper-wrapper ">
+                        <slot></slot>
+                    </div>
+                    <!-- 如果需要分页器 -->
+                    <div class="swiper-pagination"></div>
+                    
+                    <!-- 如果需要导航按钮 -->
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>
+                    
+                    <!-- 如果需要滚动条 -->
+                    <div class="swiper-scrollbar"></div>
+                </div>`,
+            mounted(){
+                new Swiper ('.swiper-container', {
+                    loop: this.loop, // 循环模式选项
+                    
+                    // 如果需要分页器
+                    pagination: {
+                        el: '.swiper-pagination',
+                    },
+                    //自动播放
+                    autoplay: {
+                        delay: 2000,
+                        disableOnInteraction: false,
+                    },
+                    
+                    // 如果需要前进后退按钮
+                    navigation: {
+                        nextEl: '.swiper-button-next',
+                        prevEl: '.swiper-button-prev',
+                    },
+                });
+            },
+            destroyed(){
+                console.log("destoryed");
+            }
+        })
+
+        new Vue({
+            el: "#box",
+            data: {
+                datalist: []
+            },
+            mounted(){
+                setTimeout(() => {
+                    this.datalist = ["../images/13.jpg","../images/14.jpg","../images/23.jpg"];
+                },1500);
+            }
+        })
+
+    </script>
+</html>

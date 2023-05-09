@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <script src="../lib/vue.js"></script>
+        <script src="../lib/axios.js"></script>
+        <style>
+            ul li{ list-style: none;margin-bottom: 5px; display: flex; }
+            ul li img{ display: block; width: 120px; }
+
+            .info{ margin-left: 10px;}
+            .info p{ width: 220px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;}
+            
+            .info p:nth-of-type(1){ font-size: 15px;}
+            .info p:nth-of-type(1)>span{ display: inline-block; width: 30px; height: 20px; background: #eeeeee;
+            font-size: 12px; text-align: center; line-height: 20px;}
+            .info p:nth-of-type(2)>span{ color: orange;}
+        </style>
+    </head>
+    <body>
+        <div id="box">
+            <button @click="handleFetch">获取并渲染</button>
+            <ul>
+                <li v-for="data in datalist" :key="data.id">
+                    <img :src="handleImg(data.img)" alt="">
+                    <div class="info">
+                        <p>{{data.nm}} <span v-if="data.version!==''">{{handleVersion(data.version)}}</span></p>
+                        <p v-if="data.sc!==0">观众评 <span>{{data.sc}}</span></p>
+                        <p v-if="data.sc===0">暂无评分</p>
+                        <p>主演：<span>{{data.star}} </span></p>
+                        <p>{{data.showInfo}}</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </body>
+    <script>
+
+         new Vue({
+            el: "#box",
+            data: {
+                datalist: []
+            },
+            methods: {
+                handleFetch(){
+                    axios.get("../data/maoyan.json").then(result => {
+                        console.log(result.data.movieList);
+                        this.datalist = result.data.movieList;
+                    })
+                },
+                handleImg(url){
+                    return url.replace("w.h/","") + "@1l_1e_1c_128w_180h";
+
+                    // http://p1.meituan.net/w.h/movie/8130663f1e7d55570cdd74616460656d491654.jpg
+                    // https://p1.meituan.net/movie/8130663f1e7d55570cdd74616460656d491654.jpg@1l_1e_1c_128w_180h
+                },
+                handleVersion(versionStr){
+                    return versionStr.split(" ")[0].substring(1).toUpperCase();
+                }
+            }
+        });
+    </script>
+</html>

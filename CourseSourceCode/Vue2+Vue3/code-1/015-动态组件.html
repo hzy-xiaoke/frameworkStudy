@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <script src="../lib/vue.js"></script>
+        <style>
+            footer{ position: fixed; bottom: 0; width: 100%;}
+            ul{ list-style: none; display: flex; background: red; color: white;
+            padding: 15px 0; text-align: center;}
+            li{ flex: 1; }
+        </style>
+    </head>
+    <body>
+        <div id="box">
+            <!-- <home v-show=" which === 'home' "></home>
+            <list v-show=" which === 'list' "></list>
+            <my-info v-show=" which === 'myInfo' "></my-info> -->
+
+            <!-- keep-alive是一个抽象组件,用来对组件进行缓存,从而节省性能 -->
+            <keep-alive>
+                <!-- 内置组件,通过is可以实现动态组件效果 -->
+                <component :is="which"></component>
+            </keep-alive>
+            
+            <footer>
+                <ul>
+                    <li @click=" which = 'home' ">首页
+                    </li>
+                    <li @click=" which = 'list' ">列表</li>
+                    <li @click=" which = 'myInfo' ">我的</li>
+                </ul>
+            </footer>
+        </div>
+    </body>
+
+    <script>
+        Vue.component("home",{
+            template: `<div>
+                home <br><input type="search" >
+            </div>`
+        });
+
+        Vue.component("list",{
+            template: `<div>
+                list
+            </div>`
+        });
+
+        Vue.component("myInfo",{
+            template: `<div>
+                myInfo
+            </div>`
+        });
+
+
+        new Vue({
+            el: "#box",
+            data: {
+                which: "home"
+            }
+        })
+
+    </script>
+</html>

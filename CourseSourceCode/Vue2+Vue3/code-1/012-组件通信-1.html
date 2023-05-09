@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <script src="../lib/vue.js"></script>
+    </head>
+    <body>
+        <div id="box">
+            {{account}}
+            <!-- 自定义事件 -->
+            <navbar @myevent="handleClick"></navbar>
+            <!-- 父组件通过属性传给子组件数据 -->
+            <sidebar :is-show="isShow"></sidebar>
+        </div>
+    </body>
+    <script>
+        //全局组件
+        Vue.component("navbar",{
+            template: `<div style="height: 40px; background: skyblue; line-height: 40px;
+                padding: 0 10px;">
+                <button @click="handleClick">展开 / 收起</button>
+            </div>`,
+            methods: {
+                handleClick(){
+                    //子组件触发父组件上的自定义事件,并传递数据
+                    this.$emit("myevent",1000);
+                }
+            }
+        });
+        //全局组件
+        Vue.component("sidebar",{
+            props: {
+                isShow: {
+                    type: Boolean,
+                    default: false
+                }
+            },
+            template: `<div v-show="isShow" style="width: 300px; background: #eeeeee; padding: 10px 0;">
+                <ul type="circle" style="height: 500px;">
+                    <li>项目1</li><br>
+                    <li>项目2</li><br>
+                    <li>项目3</li><br>
+                    <li>项目4</li><br>
+                    <li>项目5</li><br>
+                </ul>
+            </div>`
+        })
+
+        //根组件
+        new Vue({
+            el: "#box",
+            data: {
+                isShow: false,
+                account: 0
+            },
+            methods: {
+                //data为子组件传来的数据
+                handleClick(data){
+                    console.log(data)
+                    this.isShow = !this.isShow;
+                    this.account += data;
+                }
+            }
+        })
+
+    </script>
+</html>

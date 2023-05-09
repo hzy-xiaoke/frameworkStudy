@@ -1,0 +1,94 @@
+1.jsx语法规则
+--定义虚拟DOM时,不要写引号
+--标签中混入JS表达式时要用{}
+--样式的类名指定要用className
+--内联样式,要用style={{key:value}}的形式
+--虚拟DOM只有一个根标签
+--标签必须闭合
+--标签首字母
+  --若小写字母开头,会将该标签转为html中的同名元素
+  --若大写字母开头,会当做对应的组件进行渲染
+
+2.类中的方法默认开启了局部的严格模式
+
+3.组件实例三大核心属性
+--state
+--props
+--refs
+
+4.受控组件和非受控组件
+--受控组件
+  --当表单的状态发生变化时,都会被写入组件的state中
+  --每个状态更改都有一个相关联的处理程序
+  --与vue中的v-model类似
+--非受控组件
+  --在内部存储其自身状态,当需要时通过ref查询DOM并查找其当前值
+
+5.高阶函数
+--如果一个函数符合下面2个规范中的任何一个,那该函数就是高阶函数
+  --若一个函数接收的参数是一个函数
+  --若一个函数调用的返回值依然是一个函数
+--常见的高阶函数: Promise,setTimeout,filter,map等等
+
+6.函数的柯里化
+--通过函数调用继续返回函数的方式,实现多次接收参数最后统一处理的函数编码形式
+
+7.生命周期回调函数 <=> 生命周期钩子函数 <=> 生命周期函数 <=> 生命周期钩子 
+
+8.react生命周期函数(旧)
+--初始化阶段: 由ReactDOM.render()触发 - 初次渲染
+  --constructor()
+  --componentWillMount()
+  --render()
+  --componentDidMount()
+--更新阶段: 由组件内部this.setState()或父组件render触发
+  --shouldComponentUpdate()
+  --componentWillUpdate()
+  --render()
+  --componentDidUpdate()
+--卸载组件: 由ReactDOM.unmountComponentAtNode()触发
+  --componentWillUnmount()
+
+9.react生命周期函数(新)
+--初始化阶段: 由ReactDOM.render()触发 - 初次渲染
+  --constructor()
+  --getDerivedStateFromProps()
+  --render()
+  --componentDidMount()
+--更新阶段: 由组件内部this.setState()或父组件render触发
+  --getDerivedStateFromProps()
+  --shouldComponentUpdate()
+  --render()
+  --getSnapshotBeforeUpdate()
+  --componentDidUpdate()
+--卸载组件: 由ReactDOM.unmountComponentAtNode()
+  --componentWillUnmount
+
+10.虚拟DOM中key的作用
+--简单的说: key是虚拟DOM对象的标识,在更新显示时key起着非常重要的作用
+--详细的说: 当状态中的数据发生变化时,react会根据新数据生成新的虚拟DOM,
+            随后React进行新虚拟DOM与旧虚拟DOM的diff对比
+  --对比规则
+    --旧虚拟DOM中找到了与新虚拟DOM相同的key
+      --若虚拟DOM中内容没变,直接使用之前的真实DOM
+      --若虚拟DOM中内容变了,则生成新的真实DOM,替换页面之前的真实DOM
+    --旧虚拟DOM中未找到与新虚拟DOM相同的key
+      --根据数据创建新的真实DOM,随后渲染到页面
+    
+11.脚手架初始化操作
+--安装脚手架 => npm install create-react-app -g
+--创建项目 => create-react-app 项目名d
+  --当有yarn时会自动使用yarn下载相关的依赖,
+    但在初次尝试时,下载一半时失败了,
+    可能是版本问题或者需要使用独立安装的yarn来进行,
+    故本次先卸载了通过npm下载的yarn模块,再执行相关命令,
+    之后会使用npm来进行相关模块的下载,
+    在此留下一个坑等之后来填: 使用yarn下载相关模块失败时,这是什么原因? 
+
+12.css样式模块化
+--未对当多个组件的样式进行模块化时,当出现相同的选择器时,会导致后面的样式覆盖前面的样式
+--css样式模块化流程
+  --将组件的css样式文件名称加入.module,如index.css写为index.module.css
+  --然后在组件中引入时,将原来的引入方式改为import xxx from xxx的形式引入
+
+13.状态在哪里,操作状态的方法就在哪里

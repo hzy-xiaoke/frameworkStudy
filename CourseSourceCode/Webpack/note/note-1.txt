@@ -1,0 +1,29 @@
+1.资源模块的类型
+--asset/resource => 资源的路径
+--asset/inline => 资源的dataUrl
+--asset/source => 资源的源代码
+--asset => 若资源大于设定的阈值,则为asset/resource类型,否则为asset/inline类型
+  --默认阈值是8KB
+  --若需改变阈值可对parser对象下的dataUrlCondition属性下的maxSize进行设置
+
+2.代码分离方法
+--入口起点 => 使用entry配置,手动分离代码
+--防止重复 => 使用Entry dependencies或者SplitChunksPlugin去重和分离代码
+--动态导入 => 通过模块的内联函数调用来分离代码
+
+3.source-map模式
+--eval => 每个module会封装到eval里包裹起来执行,并且会在末尾追加注释//# sourceURL
+--source-map => 生成一个SourceMap文件
+--hidden-source-map => 和source-map一样,但不会在bundle末尾追加注释
+--inline-source-map => 生成一个DataUrl形式的SourceMap文件
+--eval-source-map => 每个module会通过eval()来执行,并且生成一个DataUrl形式的SourceMap
+--cheap-source-map => 生成一个没有列信息的SourceMap文件,不包含loader的SourceMap
+--cheap-module-source-map => 生成一个没有列信息的SourceMap文件,同时loader的SourceMap也被简化为只包含对应行
+
+4.生产环境一般不开启source-map功能的原因
+--通过bundle和sourcemap文件,可以反编译出源码(即有暴露源码的风险)
+--sourcemap文件的体积相对比较大,而生产环境追求是更小更轻量的bundle
+
+5.模块热替换与热加载
+--模块热替换 => 会在应用程序运行过程中,替换、添加或删除模块,而无需重新加载整个页面
+--热加载 => 文件更新时,自动刷新服务和页面

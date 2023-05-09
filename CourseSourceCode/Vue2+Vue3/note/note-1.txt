@@ -1,0 +1,115 @@
+1.动态增加属性的拦截
+--vue2不支持
+  --解决方案 Vue.set(对象,属性,属性值)
+--vue3支持
+
+2.vue2与vue3的区别
+--初始化方式不同
+  --vue2 => new Vue({el:'xxx',data:{},methods:{}})
+  --vue3 => Vue.createApp({data(){return {}},methods:{}}).mount('xxx')
+--组件定义方式不同
+  --vue2 => Vue.component(name,{})
+  --vue3 => Vue.createApp({}).component(name,{}).mount('xxx')
+--部分组件的生命周期钩子名字修改
+  --vue2中的beforeDestory()和destroyed(),在vue3中变为beforeUnmount()和unmounted()
+--指令的生命周期发生改变
+
+3.template是一个包装元素,不会真正创建在页面上
+
+4.数组更新检测问题
+--可以检测变动的函数,如push(),pop()等一些能改变原数组的相关方法(vue重写了这些方法才行的)
+--生成新数组的方法,如filter(),concat()等方法不会检测
+--vue2中的通过下标改变数组元素的方法不支持检测变动,vue3支持
+  --解决方案
+    --Vue.set(数组名,下标,新值)
+    --splice()
+
+5.常用的事件修饰符
+--阻止冒泡
+  --@事件名.stop(放在子级)
+  --@事件名.self(放在父级)
+--触发一次后解除,即只触发一次
+  --@事件名.once
+--阻止默认行为
+  --@事件名.prevent
+
+6.表单修饰符
+--lazy修饰符
+  --v-model.lazy  失去焦点再同步,懒加载
+--number修饰符
+  --v-model.number  
+    --当输入框输入的是数字或数字开头的,失焦后会类似调用Number方法
+    --当输入框输入的是非数字的,失焦后保持原来的数据
+--trim修饰符
+  --v-model.trim  去首尾空格
+
+7.计算属性computed
+--必须有返回值
+--使用时不加()
+--有缓存,但其中涉及的数据发生变化时,计算属性会重新执行,视图也会更新
+
+8.方法,计算属性,watch区别
+--方法  事件绑定,逻辑计算,可以不用return,没有缓存
+--计算属性  重视结果,解决模板过重问题,必须有return,有缓存,只能同步
+--watch  重视过程,监听一个值的改变,不用返回值,异步同步都行
+
+9.vue2支持过滤器filter,vue3不再支持
+
+10.ajax,axios,fetch三者区别
+--传统Ajax指的是XMLHttpRequest(XHR)
+--JQuery中的$.ajax()是对原生XHR的封装
+--axios也是对原生XHR的封装,只不过它是Promise的实现版本
+--fetch不是ajax的进一步封装,而是原生js,没有使用XMLHttpRequest对象
+
+11.父组件与子组件的通信
+--父传子通过属性
+--子传父通过事件
+
+12.属性和状态的区别
+--属性: 父组件传给子组件的属性,只有父组件可以重新传,但不允许子组件随意修改
+--状态: 组件内部的状态,可以随意修改
+
+13.slot插槽(内容分发)
+--混合父组件的内容与子组件自己的模板
+--注意点
+  --父组件模板的内容在父组件作用域内编译
+  --子组件模板的内容在子组件作用域内编译
+--意义: 扩展组件能力,提高组件的复用型
+
+14.过渡效果
+--使用<transition></transition>包裹住目标节点(只能存在一个)(有v-if或v-show)
+--设置进/出场动画
+  --进场 enter-active-class
+  --出场 leave-active-class
+  --通过name="xxx",但css写的类需要为xxx-enter-active和xxx-leave-active
+--包裹住的目标节点需要加上key属性,若不加,则只能在不同标签(如div和p)之间切换
+  --原因: vue中的diff算法,新老虚拟DOM进行对比(同层级对比=>同key值对比=>同组件对比)
+    --当标签不同,则会删除原节点,创建新节点
+    --当标签相同,若没有设置key,则会复用,替换内容
+
+15.<transition-group>不同于<transition>,其会以一个真实元素呈现,默认为<span>,可以用tag自行指定
+
+16.Vue2组件的生命周期
+--beforeCreate
+  --事件和生命周期钩子初始化,data observer和事件配置之前
+--created
+  --状态data加载完毕
+  --可进行异步数据请求
+--beforeMount
+  --在挂载前被调用render函数,首次被调用生成虚拟DOM
+  --生成实际DOM前的最后一次可修改DOM结构
+--mounted
+  --挂载完成,DOM树生成完毕并渲染到了页面
+  --可操作DOM节点,可进行异步数据请求
+--beforeUpdate
+  --某些状态发生变化后
+  --可获取旧状态
+--updated
+  --状态更新完毕,重新渲染DOM
+  --可获取新状态
+--beforeDestory
+  --实例销毁之前
+  --还可以访问实例的数据,可以在此阶段清除定时器,事件解绑等
+--destoryed
+  --组件已销毁
+  --可以在此阶段清除定时器,事件解绑等

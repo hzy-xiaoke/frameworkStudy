@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <style>
+            .red{ background-color: red;}
+            .yellow{ background-color: yellow;}
+        </style>
+        <script src="../lib/vue.js"></script>
+    </head>
+    <body>
+        <!-- v-bind:class => :class -->
+        <div id="box" :class="isColor?'red':'yellow'">
+            {{username}} - {{age}}
+            <!-- v-on:click => @click -->
+            <button @click="changeContent()">改变</button>
+
+            <!-- v-show  v-if -->
+            <div v-show="isShow">动态隐藏和显示</div>
+            <div v-if="isCreate">动态创建和删除</div>
+            <!-- 
+                v-show是原来就存在,是通过改变的display值实现效果的
+                v-if是创建节点和删除节点操作
+            -->
+
+            <!-- v-for -->
+            <ul>
+                <li v-for="(item,index) in list">
+                    {{item}}=={{index}}
+                </li>
+            </ul>
+            <!-- 
+                v-for可以用于根据数组长度动态创建节点,
+                可以获取元素及其索引,若要取两者需要加上(),如上
+                放在要进行批量创建的标签上 
+            -->
+        </div>
+        <script>
+            new Vue({
+                el: '#box',
+                data: {
+                    username: '张三',
+                    age: 19,
+                    isColor: 'red',
+                    isShow: false,
+                    isCreate: false,
+                    list: ["喜","怒","哀","乐"]
+                },
+                methods: {
+                    changeContent(){
+                        this.username = '李四';
+                        this.age = 25;
+                        this.isColor = !this.isColor;
+                        this.isShow = !this.isShow;
+                        this.isCreate = !this.isCreate;
+                    }
+                }
+            })
+        </script>
+    </body>
+</html>

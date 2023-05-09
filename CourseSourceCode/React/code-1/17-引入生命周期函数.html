@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+    <body>
+        <div id="box"></div>
+
+        <script src="./js/react.development.js"></script>
+        <script src="./js/react-dom.development.js"></script>
+        <script src="./js/babel.min.js"></script>
+        
+        <script type="text/babel">
+            //创建组件
+            class Life extends React.Component{
+                constructor(props){
+                    super(props);
+                    this.state = {
+                        opacity: 1
+                    }
+                    console.log('constructor--组件被构造');
+                }
+
+                handleHide = () => {
+                    //卸载组件
+                    ReactDOM.unmountComponentAtNode(document.getElementById("box"));
+                }
+
+                //组件将被挂载时
+                UNSAFE_componentWillMount(){
+                    console.log('componentWillMount---组件将要出生');
+                }
+
+                //组件挂载完毕
+                componentDidMount(){
+                    console.log('componentDidMount---组件正式出生');
+                    this.timer = setInterval(() => {
+                        let opacity = this.state.opacity;
+                        if(opacity > 0){
+                            this.setState({
+                                opacity: opacity - 0.1
+                            })
+                        }else{
+                            this.setState({
+                                opacity: 1
+                            })
+                        }
+                    }, 200);
+                }
+
+                //初始化渲染,状态更新之后
+                render(){
+                    console.log('render---组件正在跨坎');
+                    return (
+                        <div>
+                            <h2 style={{opacity: this.state.opacity}}>隐身能力波动</h2>
+                            <button onClick={this.handleHide}>隐身</button>
+                        </div>
+                    )
+                }
+
+                //控制组件更新的阀门
+                shouldComponentUpdate(){
+                    console.log('shouldComponentUpdate---组件遇到了的坎');
+                    return true;
+                }
+
+                //组件将被更新时
+                UNSAFE_componentWillUpdate(){
+                    console.log('componentWillUpdate---组件将要跨坎');
+                }
+
+                //组件完成更新后
+                componentDidUpdate(){
+                    console.log('componentDidUpdate---组件过了坎');
+                }
+
+                //组件将被卸载时
+                componentWillUnmount(){
+                    console.log('componentWillUnmount---组件的最后一口气');
+                    clearInterval(this.timer);
+                }
+
+            }
+
+            //渲染组件
+            ReactDOM.render(<Life/>,document.getElementById("box"));
+
+        </script>
+    </body>
+</html>
