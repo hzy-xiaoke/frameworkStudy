@@ -1,7 +1,0 @@
-diff a/src/util/mixinsObj.js b/src/util/mixinsObj.js	(rejected hunks)
-@@ -4 +4 @@ const obj = {
--    console.log('created => isShowFooterBar =',this.$store.state.isShowFooterBar)
-+    console.log('created => isShowFooterBar =', this.$store.state.isShowFooterBar)
-@@ -8 +8 @@ const obj = {
--    console.log('destroyed => isShowFooterBar =',this.$store.state.isShowFooterBar)
-+    console.log('destroyed => isShowFooterBar =', this.$store.state.isShowFooterBar)
