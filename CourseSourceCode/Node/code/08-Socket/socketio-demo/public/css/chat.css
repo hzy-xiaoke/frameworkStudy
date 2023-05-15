@@ -1,0 +1,101 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+ul {
+  list-style: none;
+}
+
+.container {
+  width: 450px;
+  border: 1px solid orange;
+  text-align: center;
+  margin: 20px auto;
+}
+
+h2 {
+  padding: 10px 0;
+}
+
+.userList {
+  padding: 10px;
+}
+
+.userList span {
+  display: inline-block;
+  border: 1px solid orange;
+  border-radius: 8px;
+  padding: 5px;
+  margin: 2px;
+}
+
+.userList span.active {
+  background-color: orange;
+  color: white;
+}
+
+.messageBox {
+  height: 400px;
+  padding: 10px 20px;
+  overflow: auto;
+}
+
+.messageBox li.left>div {
+  text-align: left;
+}
+
+.messageBox li.right>div {
+  text-align: right;
+}
+
+.messageBox li>p {
+  border: 1px solid orange;
+  border-radius: 8px;
+  margin: 5px 0;
+  padding: 8px;
+  background-color: orange;
+  color: white;
+  letter-spacing: 1px;
+  word-break: break-all;
+}
+
+.messageBox li>p>img {
+  width: 100%;
+}
+
+.left {
+  clear: both;
+  float: left;
+}
+
+.right {
+  clear: both;
+  float: right;
+}
+
+.inputArea {
+  display: flex;
+}
+
+.inputArea textarea {
+  flex: 3;
+  border: none;
+  border-right: 1px solid orange;
+  outline: none;
+  padding: 10px;
+  resize: vertical;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.inputArea button {
+  flex: 1;
+  border: none;
+  background-color: orange;
+  color: white;
+}
+
+button:hover {
+  cursor: pointer;
+  opacity: 0.8;
+}

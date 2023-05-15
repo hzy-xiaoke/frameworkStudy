@@ -1,0 +1,111 @@
+1.npm的使用
+--常用命令
+  --npm init
+  --npm install [package] (uninstall,update)
+  --npm install [package] --save-dev (uninstall,update)
+  --npm list
+  --npm info [package]
+  --npm install [package]@[version]
+  --npm outdated
+  --npm config get registry
+
+2.package.json中描述包的版本
+--无符号 => 表示指定的版本
+--^ => 表示锁定首位版本号后的最新版本
+--~ => 表示锁定前两位版本号后的最新版本
+--只有* => 表示最新版本
+
+3.yarn的使用
+--常用命令
+  --yarn init
+  --yarn add [package]
+  --yarn add [package]@[version]
+  --yarn add [package] --dev
+  --yarn upgrade [package]@[version]
+  --yarn list
+  --yarn remove [package]
+  --yarn install
+
+4.node项目中使用ES模块规范
+--在package.json中加入"type":"module"(默认是使用CommonJS模块规范)
+--ES模块规范和CommonJS模块规范在同一个项目无法混用
+
+5.常用内置模块
+--http模块
+  --创建服务器 => createServer()
+  --开启监听 => listen()
+  --解决中文乱码
+    --res.setHeader("Content-Type","text/html;charset=utf-8")
+    --res.writeHead(200,{"Content-Type": "text/html;charset=utf-8"})
+--url模块
+  --旧版API
+    --路径解析为对象信息 => parse()
+      --当参数2为true时,会将query解析为对象
+    --对象信息转化为路径 => format()
+    --地址拼接 => reslove()
+      --/a/b,c => /a/c
+      --/a/b/,c => /a/b/c
+      --/a/b,/c => /c
+      --/a/b/,/c => /c
+      --http://test.com/a/b,c => http://test.com/a/c
+      --http://test.com/a/b/,c => http://test.com/a/b/c
+      --http://test.com/a/b,/c => http://test.com/c
+      --http://test.com/a/b/,/c => http://test.com/c
+        --前者有域名,结果保域名
+        --后者有/,前者被干
+        --后者无/,前者有/,前后连上
+        --后者无/,前者无/,中间被干
+  --新版API
+    --创建一个URL对象 => new URL(url,base)
+      --可进行路径解析为对象信息
+      --可进行地址拼接
+    --对象信息转化为路径的方法名与旧版一样,
+      新增了参数2,可控制某些字段是否进行转化
+--querystring模块
+  --查询字符串解析成对象 => parse()
+  --对象转为查询字符串 => stringify()
+--event模块
+  --添加事件 => on()
+  --触发事件 => emit()
+--fs模块
+  --创建目录 => mkdir()
+  --重命名 => rename()
+  --删除空目录 => rmdir()
+  --写文件(覆盖) => writeFile()
+  --写文件(追加) => appendFile()
+  --读文件 => readFile()
+  --删除文件 => unlink()
+  --查看目录或文件信息 => stat()
+  --读目录下的文件 => readdir()
+--zlib模块
+--crypto模块
+
+6.Express中间件类型
+--应用级中间件
+  --绑定到app对象
+  --使用app.use()或者app.xxx(),其中xxx为HTTP请求的方法
+--路由级中间件
+  --绑定的对象为express.Router()
+--错误处理中间件
+  --4个参数,参数顺序为(err,req,res,next)
+--内置的中间件
+  --express.static是Express唯一内置的中间件
+--第三方中间件
+  --安装所需功能的node模块,并在应用中加载,可以在应用级加载,也可以在路由级加载
+
+7.Express和Koa中间件执行区别
+--Express => 线性模型
+  --中间件一个接着一个执行,上一个中间件会通过next触发下一个中间件
+--Koa => 洋葱模型
+  --中间件之间通过next函数进行联系,当上一个中间件调用next()后,会将控制
+    权交给下一个中间件,直到下一个中间件不再执行next()后,会沿路返回,将控制
+    权交给前一个中间件
+
+8.Koa一些非内置中间件
+--路由 => @koa/router
+--静态资源 => koa-static
+--支持post参数解析 => koa-bodyparser
+--支持模板引擎 => koa-views
+--读写session => koa-session-minimal
+--日志 => koa-logger
+--文件上传 => @koa/multer

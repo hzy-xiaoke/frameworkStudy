@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>聊天室</title>
+    <link rel="stylesheet" href="./css/chat.css">
+    <script src="./js/socket.io.min.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <h2>聊天室</h2>
+      <div class="userList"></div>
+      <hr />
+      <ul class="messageBox"></ul>
+      <hr />
+      <div class="inputArea">
+        <textarea id="message" rows="3"></textarea>
+        <button onclick="onSend()">发送</button>
+      </div>
+    </div>
+    <script>
+      const MessageType = {
+        ERROR: -1,
+        SYSTEM: 0,
+        GROUP_CHAT: 1,
+        GROUP_LIST: 2
+      };
+      
+      const oInput = document.querySelector('#message');
+      const oMessageBox = document.querySelector('.messageBox');
+      const oUserList = document.querySelector('.userList');
+      
+      const socket = io(`ws://localhost:3000?token=${localStorage.getItem('token')}`);
+
+      socket.on(MessageType.SYSTEM, (msg) => {
+        console.log(msg);
+      });
+
+      socket.on(MessageType.ERROR, (msg) => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('username');
+        location.href = '/login.html';
+      });
+
+      socket.on(MessageType.GROUP_LIST, (msg) => {
+        console.log(msg)
+        oUserList.innerHTML = msg.content.map(item => {
+          if (item.username === localStorage.getItem('username')) {
+            return `<span class="active">${item.username}</span>`
+          } else {
+            return `<span>${item.username}</span>`;
+          }
+        }).join('')
+      });
+
+      socket.on(MessageType.GROUP_CHAT, (msg) => {
+        oMessageBox.appendChild(createMessageItem({
+          message: msg.content,
+          type: 'left',
+          sourceUser: msg.sourceUser
+        }));
+      });
+
+      function onSend() {
+        const message = oInput.value.trim();
+
+        if (!message) {
+          return;
+        }
+
+        socket.emit(MessageType.GROUP_CHAT, createMessage(message));
+        oInput.value = '';
+        oMessageBox.appendChild(createMessageItem({
+          message,
+          type: 'right',
+          sourceUser: localStorage.getItem('username') 
+            ? localStorage.getItem('username') 
+            : '无名氏'
+        }));
+      }
+
+      function createMessageItem({ message, type, sourceUser }) {
+        const oLi = document.createElement('li');
+
+        if (type === 'left') {
+          oLi.className = 'left';
+        } 
+
+        if (type === 'right') {
+          oLi.className = 'right';
+        }
+
+        oLi.innerHTML = `
+          <div>${sourceUser}</div>
+          <p>${message}</p>
+        `;
+
+        return oLi;
+      }
+
+      function createMessage(content, targetUser = 'all') {
+        return {
+          content,
+          targetUser
+        };
+      }
+    </script>
+  </body>
+</html>

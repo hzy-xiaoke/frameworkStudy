@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户登录</title>
+    <style>
+      .container {
+        width: 300px;
+        border: 1px solid orange;
+        border-radius: 10px;
+        text-align: center;
+        margin: 0 auto;
+        padding: 10px 0;
+      }
+      input {
+        outline: none;
+      }
+      button {
+        width: 80px;
+        height: 30px;
+        border: none;
+        background-color: orange;
+        color: white;
+      }
+      button:hover {
+        cursor: pointer;
+        opacity: 0.8;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>用户登录</h2>
+      <p>
+        <label>
+          账号:
+          <input type="text" id="accout" placeholder="请输入账号" />
+        </label>
+      </p>
+      <p>
+        <label for="">
+          密码:
+          <input type="password" id="password" placeholder="请输入密码" />
+        </label>
+      </p>
+      <button onclick="onLogin()">登录</button>
+    </div>
+
+    <script>
+      const oAccount = document.querySelector('#accout');
+      const oPassword = document.querySelector('#password');
+
+      function onLogin() {
+        fetch('http://localhost:3000/api/login', {
+          method: 'post',
+          body: JSON.stringify({
+            account: oAccount.value,
+            password: oPassword.value
+          }),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }).then(res => res.json())
+        .then(data => {
+          if (data.ok === 1) {
+            localStorage.setItem('username', data.username);
+            localStorage.setItem('token', data.token);
+            location.href = '/chat.html';
+          } else {
+            console.log('用户不存在或密码错误');
+          }
+        })
+      }
+    </script>
+  </body>
+</html>

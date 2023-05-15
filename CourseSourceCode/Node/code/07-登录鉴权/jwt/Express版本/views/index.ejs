@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>MongoDB案例</title>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    // Add a request interceptor
+    axios.interceptors.request.use(function (config) {
+      const token = localStorage.getItem("token");
+      config.headers.Authorization = `Bearer ${token}`;
+      return config;
+    }, function (error) {
+      // Do something with request error
+      return Promise.reject(error);
+    });
+
+    // Add a response interceptor
+    axios.interceptors.response.use(function (response) {
+      console.log(response);
+      const { authorization } = response.headers;
+      authorization && localStorage.setItem("token",authorization);
+      return response;
+    }, function (error) {
+      console.log(error.response.status);
+      if(error.response.status === 401){
+        localStorage.removeItem("token");
+        location.href = "/login";
+      }
+      return Promise.reject(error);
+    });
+  </script>
+  <style>
+    td img{
+      width: 80px;
+      height: 80px;
+    }
+  </style>
+</head>
+
+<body>
+  <div>
+    <h2>MongoDB案例<button id="logout">退出登录</button></h2>
+    <p>
+      <input type="hidden" id="tempId" />
+    </p>
+    <p>
+      <label for="username">用户名:</label>
+      <input type="text" id="username" />
+    </p>
+    <p>
+      <label for="password">密&ensp;&ensp;码:</label>
+      <input type="password" id="password" />
+    </p>
+    <p>
+      <label for="age">年&ensp;&ensp;龄:</label>
+      <input type="number" id="age" />
+    </p>
+    <p>
+      <label for="avatar">头&ensp;&ensp;像:</label>
+      <input type="file" id="avatar" />
+    </p>
+    <p>
+      <button id="register">添加</button>
+      <button id="update" disabled="true">更新</button>
+    </p>
+    <hr />
+    <table border="1">
+      <thead>
+        <tr>
+          <th>序号</th>
+          <th>ID</th>
+          <th>用户名</th>
+          <th>年龄</th>
+          <th>头像</th>
+          <th>操作</th>
+        </tr>
+      <tbody id="list"></tbody>
+      </thead>
+    </table>
+  </div>
+  <script>
+    let tempId = document.querySelector("#tempId");
+    let username = document.querySelector("#username");
+    let password = document.querySelector("#password");
+    let age = document.querySelector("#age");
+    let register = document.querySelector("#register");
+    let update = document.querySelector("#update");
+    let list = document.querySelector("#list");
+    let logout = document.querySelector("#logout");
+    let avatar = document.querySelector("#avatar");
+
+    // 注册/新增用户
+    function addUser() {
+      let formData = new FormData();
+      formData.append("username",username.value);
+      formData.append("password",password.value);
+      formData.append("age",age.value);
+      formData.append("avatar",avatar.files[0]);
+
+      axios.post("/api/user",formData,{
+        headers: {
+          "Content-Type": "multipart/form-data"
+        }
+      }).then(res => {
+        console.log(res);
+        avatar.value = null;
+
+        selectUser();
+      })
+    }
+
+    // 更新用户
+    function updateUser() {
+      axios.put(`/api/user/${tempId.value}`, {
+        username: username.value,
+        age: age.value
+      }).then(res => {
+        console.log(res);
+
+        update.disabled = true;
+        tempId.value = "";
+        selectUser();
+      })
+    }
+
+    // 删除用户
+    function removeUser(id) {
+      axios.delete(`/api/user/${id}`)
+        .then(res => {
+          console.log(res);
+
+          selectUser();
+        })
+    }
+
+    // 查询用户
+    function selectUser() {
+      axios.get("/api/users?page=1&limit=100")
+        .then(res => {
+          let data = res.data;
+          console.log(data);
+
+          if (data.length > 0) {
+            list.innerHTML = data.map((item, index) => {
+              return `
+                <tr>
+                  <td>${index + 1}</td>
+                  <td>${item._id}</td>
+                  <td>${item.username}</td>
+                  <td>${item.age}</td>
+                  <td>
+                    <img src="${item.avatar}" />  
+                  </td>
+                  <td>
+                    <button onclick="selectOneUser('${item._id}')">编辑</button>
+                    <button onclick="removeUser('${item._id}')">删除</button>  
+                  </td>
+                </tr>
+              `;
+            }).join("");
+          }
+        })
+    }
+
+    // 查询某个用户
+    function selectOneUser(id) {
+      update.disabled = false
+      axios.get(`/api/user/${id}`)
+        .then(res => {
+          let data = res.data;
+          console.log(data);
+          
+          tempId.value = data._id;
+          username.value = data.username;
+          age.value = data.age;
+        })
+    }
+
+    // 退出登录
+    function handleLogout() {
+      localStorage.removeItem("token");
+      toLogin();
+    }
+
+    // 跳转到登录页面
+    function toLogin() {
+      location.href = '/login';
+    }
+
+    window.onload = () => {
+      register.addEventListener("click", addUser, false);
+      update.addEventListener("click", updateUser, false);
+      logout.addEventListener("click", handleLogout, false);
+      selectUser();
+    }
+
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>聊天室</title>
+    <link rel="stylesheet" href="./css/chat.css">
+  </head>
+  <body>
+    <div class="container">
+      <h2>聊天室</h2>
+      <div class="userList"></div>
+      <hr />
+      <ul class="messageBox"></ul>
+      <hr />
+      <div class="inputArea">
+        <textarea id="message" rows="3"></textarea>
+        <button onclick="onSend()">发送</button>
+      </div>
+    </div>
+    <script>
+      const MessageType = {
+        ERROR: -1,
+        SYSTEM: 0,
+        GROUP_CHAT: 1,
+        GROUP_LIST: 2
+      };
+      
+      const oInput = document.querySelector('#message');
+      const oMessageBox = document.querySelector('.messageBox');
+      const oUserList = document.querySelector('.userList');
+      
+      const ws = new WebSocket(`ws://localhost:8080?token=${localStorage.getItem('token')}`);
+
+      ws.onopen = () => {
+        console.log('连接成功');
+      }
+
+      ws.onmessage = (msgObj) => {
+        const data = JSON.parse(msgObj.data);
+        console.log('收到信息:', data);
+
+        if (data.type === MessageType.ERROR) {
+          localStorage.removeItem('token');
+          localStorage.removeItem('username');
+          location.href = '/login.html';
+        }
+
+        if (data.type === MessageType.GROUP_CHAT) {
+          oMessageBox.appendChild(createMessageItem({
+            message: data.content,
+            type: 'left',
+            sourceUser: data.sourceUser
+          }));
+        }
+
+        if (data.type === MessageType.GROUP_LIST) {
+          oUserList.innerHTML = data.content.split('|').map(item => {
+            if (item === localStorage.getItem('username')) {
+              return `<span class="active">${item}</span>`
+            } else {
+              return `<span>${item}</span>`;
+            }
+          }).join('');
+        }
+      }
+
+      ws.onerror = (err) => {
+        console.log('连接失败');
+      }
+
+      function onSend() {
+        const message = oInput.value.trim();
+
+        if (!message) {
+          return;
+        }
+
+        ws.send(createMessage(MessageType.GROUP_CHAT, message));
+        oInput.value = '';
+        oMessageBox.appendChild(createMessageItem({
+          message,
+          type: 'right',
+          sourceUser: localStorage.getItem('username') 
+            ? localStorage.getItem('username') 
+            : '无名氏'
+        }));
+      }
+
+      function createMessageItem({ message, type, sourceUser }) {
+        const oLi = document.createElement('li');
+
+        if (type === 'left') {
+          oLi.className = 'left';
+        } 
+
+        if (type === 'right') {
+          oLi.className = 'right';
+        }
+
+        oLi.innerHTML = `
+          <div>${sourceUser}</div>
+          <p>${message}</p>
+        `;
+
+        return oLi;
+      }
+
+      function createMessage(type, content, targetUser = 'all') {
+        return JSON.stringify({
+          type,
+          content,
+          targetUser
+        });
+      }
+    </script>
+  </body>
+</html>

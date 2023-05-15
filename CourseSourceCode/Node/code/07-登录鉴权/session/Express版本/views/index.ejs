@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>MongoDB案例</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <div>
+      <h2>MongoDB案例<button id="logout">退出登录</button></h2>
+      <p>
+        <input type="hidden" id="tempId" /> 
+      </p>
+      <p>
+        <label for="username">用户名:</label>
+        <input type="text" id="username" />
+      </p>
+      <p>
+        <label for="password">密&ensp;&ensp;码:</label>
+        <input type="password" id="password" />
+      </p>
+      <p>
+        <label for="age">年&ensp;&ensp;龄:</label>
+        <input type="number" id="age" />
+      </p>
+      <p>
+        <button id="register">添加</button>
+        <button id="update" disabled="true">更新</button>
+      </p>
+      <hr />
+      <table border="1">
+        <thead>
+          <tr>
+            <th>序号</th>
+            <th>ID</th>
+            <th>用户名</th>
+            <th>年龄</th>
+            <th>操作</th>
+          </tr>
+          <tbody id="list"></tbody>
+        </thead>
+      </table>
+    </div>
+    <script>
+      let tempId = document.querySelector("#tempId");
+      let username = document.querySelector("#username");
+      let password = document.querySelector("#password");
+      let age = document.querySelector("#age");
+      let register = document.querySelector("#register");
+      let update = document.querySelector("#update");
+      let list = document.querySelector("#list");
+      let logout = document.querySelector("#logout");
+      
+      // 注册/新增用户
+      function addUser(){
+        console.log(username.value,password.value,age.value);
+        fetch("/api/user",{
+          method: "POST",
+          body: JSON.stringify({
+            username: username.value,
+            password: password.value,
+            age: age.value
+          }),
+          headers: {
+            "Content-Type": "application/json"
+          }
+        }).then(res => res.json()).then(res => {
+          console.log(res);
+          if(res.ok === 0){
+            toLogin();
+            return;
+          }
+
+          selectUser();
+        })
+      }
+
+      // 更新用户
+      function updateUser(){
+        fetch(`/api/user/${tempId.value}`,{
+          method: "PUT",
+          body: JSON.stringify({
+            username: username.value,
+            age: age.value
+          }),
+          headers: {
+            "Content-Type": "application/json"
+          }
+        }).then(res => res.json()).then(res => {
+          console.log(res);
+          if(res.ok === 0){
+            toLogin();
+            return;
+          }
+          
+          update.disabled = true;
+          tempId.value = "";
+          selectUser();
+        })
+      }
+
+      // 删除用户
+      function removeUser(id){
+        fetch(`/api/user/${id}`,{
+          method: "DELETE"
+        })
+          .then(res => res.json())
+          .then(res => {
+            console.log(res)
+            if(res.ok === 0){
+              toLogin();
+              return;
+            }
+            selectUser();
+          })
+      }
+
+      // 查询用户
+      function selectUser(){
+        fetch("/api/user?page=1&limit=100")
+        .then(res => res.json())
+        .then(data => {
+          console.log(data)
+          if(data.ok === 0){
+            toLogin();
+            return;
+          }
+          if(data.length > 0){
+            list.innerHTML = data.map((item,index) => {
+              return `
+                <tr>
+                  <td>${index + 1}</td>
+                  <td>${item._id}</td>
+                  <td>${item.username}</td>
+                  <td>${item.age}</td>
+                  <td>
+                    <button onclick="selectOneUser('${item._id}')">编辑</button>
+                    <button onclick="removeUser('${item._id}')">删除</button>  
+                  </td>
+                </tr>
+              `;
+            }).join("");
+          }
+        })
+      }
+
+      // 查询某个用户
+      function selectOneUser(id){
+        update.disabled = false;
+        fetch(`/api/user/${id}`)
+          .then(res => res.json())
+          .then(data => {
+            console.log(data);
+            if(data.ok === 0){
+              toLogin();
+              return;
+            }
+            tempId.value = data._id;
+            username.value = data.username;
+            age.value = data.age;
+          })
+      }
+
+      // 退出登录
+      function handleLogout(){
+        fetch("/api/logout")
+          .then(res => res.json())
+          .then(res => {
+            if(res.ok === 1){
+              toLogin();
+            }
+          })
+      }
+
+      // 跳转到登录页面
+      function toLogin(){
+        location.href = '/login';
+      }
+
+      window.onload = () => {
+        register.addEventListener("click",addUser,false);
+        update.addEventListener("click",updateUser,false);
+        logout.addEventListener("click",handleLogout,false);
+        selectUser();
+      }
+
+    </script>
+  </body>
+</html>
