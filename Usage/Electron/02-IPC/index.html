@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+    <title>IPC</title>
+    <link rel="stylesheet" href="./style.css">
+  </head>
+  <body>
+    <div>
+      标题: <input type="text" id="title" placeholder="请设置标题">
+      <button id="settingBtn">设置</button>
+    </div>
+    <hr>
+    <div>
+      <button id="openBtn">打开文件</button>
+      <br>
+      <span id="filePath"></span>
+    </div>
+    <hr>
+    <div>
+      <span id="count">0</span>
+    </div>
+    <script src="./renderer/app.js"></script>
+  </body>
+</html>
