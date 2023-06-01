@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+    <title>clipboard</title>
+    <link rel="stylesheet" href="./style.css">
+  </head>
+  <body>
+    <div>
+      <textarea id="content" cols="30" rows="10"></textarea>
+      <button class="paste" disabled>粘贴</button>
+    </div>
+    <div class="container">
+      <p>生于忧患，死于安乐。</p>
+      <button class="copy">复制</button>
+    </div>
+    <div class="container">
+      <p>塞翁失马，焉知非福。</p>
+      <button class="copy">复制</button>
+    </div>
+    <div class="container">
+      <p>守其初心，始终不变。</p>
+      <button class="copy">复制</button>
+    </div>
+    <script src="./renderer/app.js"></script>
+  </body>
+</html>
