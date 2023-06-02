@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src data:; script-src 'self'">
+    <title>desktopCapturer</title>
+  </head>
+  <body>
+    <div class="container">
+      <button id="captureImage">捕获-图片</button>
+      <div class="imageContainer"></div>
+    </div>
+    <hr>
+    <div class="container">
+      <button id="captureVideo">捕获-视频</button>
+      <div class="videoContainer"></div>
+    </div>
+    <script src="./renderer/app.js"></script>
+  </body>
+</html>
