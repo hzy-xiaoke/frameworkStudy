@@ -88,10 +88,10 @@ ul {
 }
 
 .float-left {
-  clear: right;
+  clear: both;
   float: left;
 }
 .float-right {
-  clear: left;
+  clear: both;
   float: right;
 }
