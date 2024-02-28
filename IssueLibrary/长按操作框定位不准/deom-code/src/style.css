@@ -1,0 +1,10 @@
+:root {
+  --theme-bgcolor: orange;
+  --theme-txtcolor: white;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  user-select: none;
+}
