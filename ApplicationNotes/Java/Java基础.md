@@ -194,8 +194,6 @@ public class HelloWorld{
 
   + \>\>(右移)  => A \>> B(A除以2的B次方)
 
-![img](https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/2998/20220411153115.png)
-
 ---
 
 #### 流程控制
